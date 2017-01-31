@@ -1,0 +1,19 @@
+{
+	"name": "drago-ex/bootstrap",
+	"type": "library",
+	"description": "Bootstrap for application.",
+	"license": ["MIT"],
+	"authors": [
+		{
+			"name": "Zdeněk Papučík",
+			"homepage": "https://github.com/accgit"
+		}
+	],
+	"require": {
+		"php": ">=5.6.0",
+		"nette/bootstrap": "~2.4.0"
+	},
+	"autoload": {
+		"classmap": ["src/"]
+	}
+}
