@@ -1,7 +1,7 @@
 {
 	"name": "drago-ex/bootstrap",
 	"type": "library",
-	"description": "Bootstrap for application.",
+	"description": "Setting up and running the application.",
 	"license": ["MIT"],
 	"authors": [
 		{
