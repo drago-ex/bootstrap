@@ -12,3 +12,7 @@ The boot file (usually bootstrap), use this command:
 // To scan multiple folders, use the array.
 $app->addFindConfig(__DIR__ . '/directory');
 ```
+
+Here you can see the whole configuration:
+ [Bootstrap](https://github.com/drago-ex/skeleton/blob/master/app/booter.php)
+ 
