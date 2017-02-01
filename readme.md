@@ -6,7 +6,7 @@ search configuration files. Found configuration files are stored in the own cach
 If necessary, we can set the configuration file priority. Priority is set to put the number
 in front of the file name, the higher the number, the higher the priority.
 
-The boot file (usually bootstrap), use this configuration:
+## The boot file (usually bootstrap), use this configuration:
 
 ```php
 // Configure application.
