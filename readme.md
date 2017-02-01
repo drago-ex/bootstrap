@@ -13,10 +13,10 @@ The boot file (usually bootstrap), use this configuration:
 $app = new Drago\Configurator();
 
 // Enable debagger bar.
-$app->enableDebugger(__DIR__ . '/../log');
+$app->enableDebugger(__DIR__ . '/logs');
 
 // Temporary directory.
-$app->setTempDirectory(__DIR__ . '/../storage');
+$app->setTempDirectory(__DIR__ . '/temporary');
 
 // Enabled autoload classes.
 $app->addAutoload(__DIR__);
@@ -25,7 +25,7 @@ $app->addAutoload(__DIR__);
 $app->addFindConfig(__DIR__ . '/directory');
 
 // Create DI container from configuration files.
-$app->addConfig(__DIR__ . '/app.neon');
+$app->addConfig(__DIR__ . '/config.neon');
 
 // Run application.
 $app->run();
