@@ -1,5 +1,7 @@
 ## Drago Bootstrap
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/623376563a474eb5b75a129febd549ca)](https://www.codacy.com/app/zdenek.papucik/bootstrap?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=drago-ex/bootstrap&amp;utm_campaign=Badge_Grade)
+
 Nette Configurator compared with the Drago Configurator file is extended by an automatic
 search configuration files. Found configuration files are stored in the own cache.
 
