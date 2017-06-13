@@ -17,7 +17,7 @@ use Nette\Caching;
 class Configurator extends Nette\Configurator
 {
 	// Name cache for storing configuration files.
-	const Caching = 'Drago.CacheConf';
+	const CACHING = 'Drago.CacheConf';
 
 	public function __construct()
 	{
@@ -56,10 +56,10 @@ class Configurator extends Nette\Configurator
 	 */
 	public function addFindConfig($dirs, $exclude = NULL)
 	{
-		$cache = new Caching\Cache(new Caching\Storages\FileStorage($this->getCacheDirectory()), self::Caching);
+		$cache = new Caching\Cache(new Caching\Storages\FileStorage($this->getCacheDirectory()), self::CACHING);
 
 		// Search will be started only when the cache does not exist.
-		if (!$cache->load(self::Caching)) {
+		if (!$cache->load(self::CACHING)) {
 
 			// Search configuration files.
 			foreach (Utils\Finder::findFiles('*.neon')->from($dirs)->exclude($exclude) as $row) {
@@ -73,13 +73,13 @@ class Configurator extends Nette\Configurator
 			// Sort found files by number and put into the cache.
 			array_multisort($name, SORT_NUMERIC, $data);
 			if (isset($data)) {
-				$cache->save(self::Caching, $data);
+				$cache->save(self::CACHING, $data);
 			}
 		}
 
 		// Loads the data from the cache.
-		if ($cache->load(self::Caching)) {
-			foreach ($cache->load(self::Caching) as $files) {
+		if ($cache->load(self::CACHING)) {
+			foreach ($cache->load(self::CACHING) as $files) {
 				$this->addConfig($files);
 			}
 		}
