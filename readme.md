@@ -2,13 +2,12 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/bca7c54deec24262898d74e62dcfbb1e)](https://www.codacy.com/app/accgit/bootstrap?utm_source=github.com&utm_medium=referral&utm_content=drago-ex/bootstrap&utm_campaign=badger)
 
-Nette Configurator compared with the Drago Configurator file is extended by an automatic
-search configuration files. Found configuration files are stored in the own cache.
+Nette Configurator extensions to automatically search for configuration files, found configuration files are cached.
 
-If necessary, we can set the configuration file priority. Priority is set to put the number
-in front of the file name, the higher the number, the higher the priority.
+If necessary, we can set the configuration file's priority. As a priority, we use the number before the file name, 
+the higher the number, the higher the priority.
 
-## The boot file (usually bootstrap), use this configuration:
+## Using Configurator:
 
 ```php
 // Configure application.
