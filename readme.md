@@ -23,7 +23,7 @@ $app->setTempDirectory(__DIR__ . '/temporary');
 $app->addAutoload(__DIR__);
 
 // To scan multiple folders, use the array.
-$app->addFindConfig(__DIR__ . '/directory');
+$app->addFindConfig(__DIR__ . '/modules');
 
 // Create DI container from configuration files.
 $app->addConfig(__DIR__ . '/config.neon');
