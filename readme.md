@@ -26,7 +26,7 @@ $app->addAutoload(__DIR__);
 $app->addFindConfig(__DIR__ . '/modules');
 
 // Create DI container from configuration files.
-$app->addConfig(__DIR__ . '/config.neon');
+$app->addConfig(__DIR__ . '/conf.neon');
 
 // Run application.
 $app->run();
