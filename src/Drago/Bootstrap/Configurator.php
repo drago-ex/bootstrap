@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Extending for Nette Framework.
+ * Extending for Nette Framework
  * Copyright (c) 2015, Zdeněk Papučík
  */
 namespace Drago;
