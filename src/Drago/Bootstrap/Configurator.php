@@ -12,7 +12,6 @@ use Nette\Caching;
 
 /**
  * DI container generator.
- * @author Zdeněk Papučík
  */
 class Configurator extends Nette\Configurator
 {
