@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Extending for Nette Framework
+ * Extending Nette\Configurator
  * Copyright (c) 2015, Zdeněk Papučík
  */
 namespace Drago;
@@ -11,11 +11,11 @@ use Nette\Utils;
 use Nette\Caching;
 
 /**
- * DI container generator.
+ * Generování systémového kontejneru.
  */
 class Configurator extends Nette\Configurator
 {
-	// Name cache for storing configuration files.
+	// Název mezipaměťi pro automatické vyhledávání konfiguračních souborů.
 	const CACHING = 'Drago.CacheConf';
 
 	public function __construct()
@@ -25,20 +25,20 @@ class Configurator extends Nette\Configurator
 	}
 
 	/**
-	 * Directory structure.
+	 * Adresářová struktůra aplikace.
 	 * @return array
 	 */
 	private function parameters()
 	{
 		$parms = $this->parameters;
-		$trace = debug_backtrace(PHP_VERSION_ID >= 70008 ? DEBUG_BACKTRACE_IGNORE_ARGS : FALSE);
-		$parms['appDir'] = isset($trace[1]['file']) ? dirname($trace[1]['file']) : NULL;
+		$trace = debug_backtrace(PHP_VERSION_ID >= 70008 ? DEBUG_BACKTRACE_IGNORE_ARGS : false);
+		$parms['appDir'] = isset($trace[1]['file']) ? dirname($trace[1]['file']) : null;
 		$parms['wwwDir'] = $parms['wwwDir'] . DIRECTORY_SEPARATOR . 'www';
 		return $parms;
 	}
 
 	/**
-	 * Autoload classes.
+	 * Automatické vyhledávání tříd.
 	 * @param string|array
 	 */
 	public function addAutoload($dirs)
@@ -49,18 +49,18 @@ class Configurator extends Nette\Configurator
 	}
 
 	/**
-	 * Search configuration files.
+	 * Vyhledávání a uložení konfiguračních souborů do vlastní mezipaměti.
 	 * @param mixed
-	 * @param mixed
+	 * @param mixed|null
 	 */
-	public function addFindConfig($dirs, $exclude = NULL)
+	public function addFindConfig($dirs, $exclude = null)
 	{
 		$cache = new Caching\Cache(new Caching\Storages\FileStorage($this->getCacheDirectory()), self::CACHING);
 
-		// Search will be started only when the cache does not exist.
+		// Vyhledání se spustí jen tehdy, když bude prázdná mezipaměť.
 		if (!$cache->load(self::CACHING)) {
 
-			// Search configuration files.
+			// Vyhledání konfiguračnich souborů.
 			foreach (Utils\Finder::findFiles('*.neon')->from($dirs)->exclude($exclude) as $row) {
 				$data[] = $row->getPathname();
 			}
@@ -69,14 +69,14 @@ class Configurator extends Nette\Configurator
 				$name[] = basename($row);
 			}
 
-			// Sort found files by number and put into the cache.
+			// Nalezené soubory se seřadi podle čísel (budou-li uvedené v názvu souboru).
 			array_multisort($name, SORT_NUMERIC, $data);
 			if (isset($data)) {
 				$cache->save(self::CACHING, $data);
 			}
 		}
 
-		// Loads the data from the cache.
+		// Načtení dat z mezipaměťi.
 		if ($cache->load(self::CACHING)) {
 			foreach ($cache->load(self::CACHING) as $files) {
 				$this->addConfig($files);
@@ -85,7 +85,7 @@ class Configurator extends Nette\Configurator
 	}
 
 	/**
-	 * Run application.
+	 * Spuštění aplikace.
 	 * @return void
 	 */
 	public function run()
