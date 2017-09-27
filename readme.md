@@ -24,7 +24,7 @@ když vytvoříte nebo vymažete konfigurační soubor, aby se přegeneroval sys
 // Konfigurace aplikace.
 $app = new Drago\Configurator;
 
-// Povolení vyhledávání tříd.
+// Nastavení parametrů pro vyhledávání tříd.
 $app->addAutoload(__DIR__);
 
 // Vytvoření systémového kontejneru.
