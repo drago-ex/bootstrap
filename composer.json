@@ -1,7 +1,7 @@
 {
 	"name": "drago-ex/bootstrap",
 	"type": "library",
-	"description": "Jednoduchá konfigurace pro aplikace postavené na rozšíření Drago Bootstrap.",
+	"description": "Základní konfigurace pro aplikace.",
 	"license": ["MIT"],
 	"authors": [
 		{
