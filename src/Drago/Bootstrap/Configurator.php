@@ -15,7 +15,7 @@ use Nette\Caching;
  */
 class Configurator extends Nette\Configurator
 {
-	// Název mezipaměťi pro automatické vyhledávání konfiguračních souborů.
+	// Název cache pro automatické vyhledávání konfiguračních souborů.
 	const CACHING = 'Drago.CacheConf';
 
 	public function __construct()
@@ -38,7 +38,7 @@ class Configurator extends Nette\Configurator
 	}
 
 	/**
-	 * Automatické vyhledávání tříd.
+	 * Automaticky vyhledává třídy.
 	 * @param string|array
 	 */
 	public function addAutoload($dirs)
@@ -49,7 +49,7 @@ class Configurator extends Nette\Configurator
 	}
 
 	/**
-	 * Vyhledávání a uložení konfiguračních souborů do vlastní mezipaměti.
+	 * Vyhledává konfigurační soubory.
 	 * @param mixed
 	 * @param mixed|null
 	 */
@@ -57,10 +57,10 @@ class Configurator extends Nette\Configurator
 	{
 		$cache = new Caching\Cache(new Caching\Storages\FileStorage($this->getCacheDirectory()), self::CACHING);
 
-		// Vyhledání se spustí jen tehdy, když bude prázdná mezipaměť.
+		// Vyhledání se spustí jen tehdy, když bude prázdná cache.
 		if (!$cache->load(self::CACHING)) {
 
-			// Vyhledání konfiguračnich souborů.
+			// Nastavení parametrů pro vyhledávání konfiguračních souborů.
 			foreach (Utils\Finder::findFiles('*.neon')->from($dirs)->exclude($exclude) as $row) {
 				$data[] = $row->getPathname();
 			}
@@ -76,7 +76,7 @@ class Configurator extends Nette\Configurator
 			}
 		}
 
-		// Načtení dat z mezipaměťi.
+		// Načte data z cache.
 		if ($cache->load(self::CACHING)) {
 			foreach ($cache->load(self::CACHING) as $files) {
 				$this->addConfig($files);
@@ -85,7 +85,7 @@ class Configurator extends Nette\Configurator
 	}
 
 	/**
-	 * Spuštění aplikace.
+	 * Spustí aplikaci.
 	 * @return void
 	 */
 	public function run()
