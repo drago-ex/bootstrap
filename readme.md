@@ -16,7 +16,7 @@ libovolně seřadit podle čísel, obecně zde platí pravidlo, že čím vyšš
 
 ## Upozornění
 
-Protože se ukádají pouze cesty konfiguračních souborů do cache, je tedy nutné ji promazat vždy, když vytvoříme
+Protože se ukládají pouze cesty konfiguračních souborů do cache, je tedy nutné ji promazat vždy, když vytvoříme
 nebo vymažeme konfigurační soubor, aby se znova vygeneroval systémový kontejner.
 
 ## Příklad konfigurace
