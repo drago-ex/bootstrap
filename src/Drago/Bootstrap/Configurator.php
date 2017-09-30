@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Extension Nette\Configurator
+ * Drago Bootstrap
  * Copyright (c) 2015, Zdeněk Papučík
  */
 namespace Drago;
