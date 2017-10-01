@@ -7,17 +7,17 @@ volání metody pro vyhledávání tříd a spuštění aplikace.
 
 ## Jak funguje vyhledávání konfiguračních souborů
 
-Vyhledávání funguje tak, že se spustí jen tehdy, pokud nebude existovat cache (Drago.CacheConf) do které
-se ukádají pouze nalezené cesty konfiguračních souborů, ty se pak předají do systémového kontejneru.
+Vyhledávání funguje tak, že se spustí jen v případě, pokud neexistuje cache (Drago.CacheConf) do které se ukádají
+pouze nalezené cesty konfiguračních souborů, ty se pak předají do systémového kontejneru.
 
 V případě, že budeme potřebovat přednostně načíst některé konfigurační soubory, uděláme to tak, že před název souboru
-přidáme číslo, tím si zajistíme to, že se tyto konfigurační soubory budou načítat přednostně, můžeme je dokonce
-libovolně seřadit podle čísel, obecně zde platí pravidlo, že čím vyšší bude číslo, tím vyšší bude priorita.
+přidáme číslo, tím si zajistíme to, že se tyto konfigurační soubory budou načítat přednostně, můžeme je tedy libovolně
+seřadit podle čísel, obecně zde platí pravidlo, že čím vyšší bude číslo, tím vyšší bude priorita.
 
 ## Upozornění
 
-Protože se ukládají pouze cesty konfiguračních souborů do cache, je tedy nutné ji promazat vždy, když vytvoříme
-nebo vymažeme konfigurační soubor, aby se znova vygeneroval systémový kontejner.
+Protože se do cache ukládají pouze cesty konfiguračních souborů, je tedy nutné ji vždy promazat, když vytvoříme nebo
+vymažeme konfigurační soubory, aby se vygeneroval nový systémový kontejner.
 
 ## Příklad konfigurace
 
