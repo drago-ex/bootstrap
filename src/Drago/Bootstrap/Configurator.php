@@ -57,7 +57,7 @@ class Configurator extends Nette\Configurator
 	{
 		$cache = new Caching\Cache(new Caching\Storages\FileStorage($this->getCacheDirectory()), self::CACHING);
 
-		// Vyhledání se spustí jen tehdy, když bude prázdná cache.
+		// Vyhledání se spustí jen v případě, když bude prázdná cache.
 		if (!$cache->load(self::CACHING)) {
 
 			// Nastavení parametrů pro vyhledávání konfiguračních souborů.
