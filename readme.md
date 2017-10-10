@@ -24,7 +24,7 @@ $app = new Drago\Configurator;
 // Nastavení parametrů pro vyhledávání tříd.
 $app->addAutoload(__DIR__);
 
-// Vytvoření systémového kontejneru.
+// Vyhledávaní konfiguračních souborů.
 $app->addFindConfig(__DIR__ . '/path/to/dir');
 
 // Spuštění aplikace.
