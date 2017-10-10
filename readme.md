@@ -33,13 +33,12 @@ $app->run();
 
 ## Popis metody, která vyhledává konfigurační soubory
 
-Vyhledávání se spouští jen v případě, pokud nám neexistuje cache (Drago.CacheConf) do které se ukádají nalezené cesty
-konfiguračních souborů, ty se pak předají do systémového kontejneru.
+Při spuštění aplikace se ověří existence cache (Drago.CacheConf), a jestliže bude prázdná, tak se aktivuje
+vyhledávání konfiguračních souborů. Během tohoto procesu se zjistí cesty k nalezeným konfiguračním souborům
+a ty se uloží do cache a následně se předají systémovému kontejneru.
 
 V případě, že budeme potřebovat přednostně načíst některé konfigurační soubory, uděláme to tak, že před název souboru
 přidáme číslo. Obecně zde platí pravidlo, že čím vyšší bude číslo, tím vyšší bude priorita.
 
-## Upozornění
-
-Protože se do cache ukládají pouze cesty konfiguračních souborů, je tedy nutné ji vždy promazat, když vytvoříme nebo
-vymažeme konfigurační soubory, aby se vygeneroval nový systémový kontejner.
+Protože se do cache ukládají pouze nalezené cesty ke konfiguračním souborům, je tedy nutné ji vždy promazat, když
+vytvoříme nebo vymažeme konfigurační soubory, aby se vygeneroval nový systémový kontejner.
