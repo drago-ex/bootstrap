@@ -42,7 +42,7 @@ které se uloží do cache a následně se předají systémovému kontejneru.
 V případě, že budeme potřebovat přednostně načíst některé konfigurační soubory, uděláme to tak, že před název souboru
 přidáme číslo. Obecně zde platí pravidlo, že čím vyšší bude číslo, tím vyšší bude priorita.
 
-# Upozornění
+## Upozornění
 
 Protože se do cache ukládají pouze nalezené cesty ke konfiguračním souborům, je tedy nutné ji vždy promazat, když
 vytvoříme nebo vymažeme konfigurační soubory, aby se vygeneroval nový systémový kontejner.
