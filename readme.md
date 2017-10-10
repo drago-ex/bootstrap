@@ -11,7 +11,7 @@ Základní konfigurace pro aplikace.
 
 ## Instalace
 
-```json
+```
 composer require drago-ex/bootstrap
 ```
 
@@ -30,3 +30,16 @@ $app->addFindConfig(__DIR__ . '/path/to/dir');
 // Spuštění aplikace.
 $app->run();
 ```
+
+## Popis metody pro vyhledávání konfiguračních souborů
+
+Vyhledávání se spustí jen v případě, pokud neexistuje cache (Drago.CacheConf) do které se ukádají nalezené cesty
+konfiguračních souborů, ty se pak předají do systémového kontejneru.
+
+V případě, že budeme potřebovat přednostně načíst některé konfigurační soubory, uděláme to tak, že před název souboru
+přidáme číslo. Obecně zde platí pravidlo, že čím vyšší bude číslo, tím vyšší bude priorita.
+
+## Upozornění
+
+Protože se do cache ukládají pouze cesty konfiguračních souborů, je tedy nutné ji vždy promazat, když vytvoříme nebo
+vymažeme konfigurační soubory, aby se vygeneroval nový systémový kontejner.
