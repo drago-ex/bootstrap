@@ -12,7 +12,7 @@ Basic configuration for applications.
 ## Installation
 
 ```
-composer require drago-ex / bootstrap
+composer require drago-ex/bootstrap
 ```
 
 ## Configuration example
@@ -22,13 +22,13 @@ composer require drago-ex / bootstrap
 $app = new Drago\Configurator;
 
 // Autoloading classes.
-$app->addAutoload(__ DIR__);
+$app->addAutoload(__DIR__);
 
 // Searching configuration files.
-$app->addFindConfig(__DIR__ '/path/to/dir');
+$app->addFindConfig(__DIR__ . '/path/to/dir');
 
 // Run application.
-$app->run ();
+$app->run();
 ```
 
 ## Description of the method that searches for configuration files
