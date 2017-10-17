@@ -11,13 +11,13 @@ Basic configuration for applications.
 
 ## Installation
 
-`` `
+```
 composer require drago-ex / bootstrap
-`` `
+```
 
 ## Configuration example
 
-`` `php
+```php
 // Configure the application.
 $app = new Drago \Configurator;
 
