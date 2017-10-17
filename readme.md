@@ -19,7 +19,7 @@ composer require drago-ex / bootstrap
 
 ```php
 // Configure the application.
-$app = new Drago \Configurator;
+$app = new Drago\Configurator;
 
 // Autoloading classes.
 $app->addAutoload(__ DIR__);
