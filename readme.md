@@ -1,48 +1,48 @@
 ## Drago Bootstrap
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bca7c54deec24262898d74e62dcfbb1e)](https://www.codacy.com/app/accgit/bootstrap?utm_source=github.com&utm_medium=referral&utm_content=drago-ex/bootstrap&utm_campaign=badger)
+[! [Codacy Badge] (https://api.codacy.com/project/badge/Grade/bca7c54deec24262898d74e62dcfbb1e)] (https://www.codacy.com/app/accgit/bootstrap?utm_source=github.com&utm_medium=referral&utm_content = drago-ex / bootstrap & utm_campaign = badger)
 
-Základní konfigurace pro aplikace.
+Basic configuration for applications.
 
-## Požadavky
+## Requirements
 
-- PHP 7.0.8 nebo vyšší
+- PHP 7.0.8 or higher
 - composer
 
-## Instalace
+## Installation
 
+`` `
+composer require drago-ex / bootstrap
+`` `
+
+## Configuration example
+
+`` `php
+// Configure the application.
+$app = new Drago \Configurator;
+
+// Autoloading classes.
+$app->addAutoload(__ DIR__);
+
+// Searching configuration files.
+$app->addFindConfig(__DIR__ '/path/to/dir');
+
+// Run application.
+$app->run ();
 ```
-composer require drago-ex/bootstrap
-```
 
-## Příklad konfigurace
+## Description of the method that searches for configuration files
 
-```php
-// Konfigurace aplikace.
-$app = new Drago\Configurator;
+When running an application, the existence of the cache (Drago.CacheConf) is verified, and if it is empty, it activates
+searching for configuration files. During searches, the paths to the configuration files found are found,
+which is stored in the cache and then passed to the system container.
 
-// Nastavení parametrů pro vyhledávání tříd.
-$app->addAutoload(__DIR__);
+## How to specify the priorities for configuration files
 
-// Vyhledávaní konfiguračních souborů.
-$app->addFindConfig(__DIR__ . '/path/to/dir');
+If we need to preload some configuration files, we will do so before the file name
+add a number. In general, the rule that the higher the number, the higher the priority will be.
 
-// Spuštění aplikace.
-$app->run();
-```
+## Warning
 
-## Popis metody, která vyhledává konfigurační soubory
-
-Při spuštění aplikace se ověří existence cache (Drago.CacheConf), a jestliže bude prázdná, tak se aktivuje
-vyhledávání konfiguračních souborů. Během vyhledávání se zjistí cesty k nalezeným konfiguračním souborům,
-které se uloží do cache a následně se předají systémovému kontejneru.
-
-## Jak určit priority pro konfigurační soubory
-
-V případě, že budeme potřebovat přednostně načíst některé konfigurační soubory, uděláme to tak, že před název souboru
-přidáme číslo. Obecně zde platí pravidlo, že čím vyšší bude číslo, tím vyšší bude priorita.
-
-## Upozornění
-
-Protože se do cache ukládají pouze nalezené cesty ke konfiguračním souborům, je tedy nutné ji vždy promazat, když
-vytvoříme nebo vymažeme konfigurační soubory, aby se vygeneroval nový systémový kontejner.
+Because caches only save paths to configuration files, it must always be deleted when
+create or delete configuration files to generate a new system container.
