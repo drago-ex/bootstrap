@@ -6,7 +6,7 @@ Basic configuration for applications.
 
 ## Requirements
 
-- PHP 7.0.8 or higher
+- PHP 7.1 or higher
 - composer
 
 ## Installation

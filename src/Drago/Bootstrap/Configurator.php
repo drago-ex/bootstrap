@@ -1,5 +1,8 @@
 <?php
 
+// Enable strict mode.
+declare(strict_types = 1);
+
 /**
  * Drago Bootstrap
  * Copyright (c) 2015, Zdeněk Papučík
@@ -15,8 +18,10 @@ use Nette\Caching;
  */
 class Configurator extends Nette\Configurator
 {
-	// Cache for automatic searching configuration files.
-	const CACHING = 'Drago.CacheConf';
+	/**
+	 * Cache for automatic searching configuration files.
+	 */
+	private const CACHING = 'Drago.CacheConf';
 
 	public function __construct()
 	{
@@ -26,12 +31,11 @@ class Configurator extends Nette\Configurator
 
 	/**
 	 * Default parameters.
-	 * @return array
 	 */
-	private function parameters()
+	private function parameters(): array
 	{
 		$parms = $this->parameters;
-		$trace = debug_backtrace(PHP_VERSION_ID >= 70008 ? DEBUG_BACKTRACE_IGNORE_ARGS : false);
+		$trace = debug_backtrace(PHP_VERSION_ID >= 70100 ? DEBUG_BACKTRACE_IGNORE_ARGS : false);
 		$parms['appDir'] = isset($trace[1]['file']) ? dirname($trace[1]['file']) : null;
 		$parms['wwwDir'] = $parms['wwwDir'] . DIRECTORY_SEPARATOR . 'www';
 		return $parms;
@@ -39,7 +43,7 @@ class Configurator extends Nette\Configurator
 
 	/**
 	 * Autoloading classes.
-	 * @param string|array
+	 * @param mixed $dirs
 	 */
 	public function addAutoload($dirs)
 	{
@@ -50,8 +54,8 @@ class Configurator extends Nette\Configurator
 
 	/**
 	 * Searching configuration files.
-	 * @param mixed
-	 * @param mixed|null
+	 * @param mixed $dirs
+	 * @param mixed $exclude
 	 */
 	public function addFindConfig($dirs, $exclude = null)
 	{
