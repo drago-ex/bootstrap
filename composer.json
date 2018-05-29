@@ -13,7 +13,7 @@
 		"php": ">=7.1",
 		"nette/bootstrap": "^2.4",
 		"nette/utils": "^2.4",
-		"nette/caching": "^2.4",
+		"nette/caching": "^2.5",
 		"nette/application": "^2.4"
 	},
 	"autoload": {
