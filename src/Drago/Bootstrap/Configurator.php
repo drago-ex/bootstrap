@@ -57,7 +57,7 @@ class Configurator extends Nette\Configurator
 	 * @param mixed $dirs
 	 * @param mixed $exclude
 	 */
-	public function addFindConfig($dirs, $exclude = null)
+	public function addFindConfig($dirs, ...$exclude)
 	{
 		$cache = new Caching\Cache(new Caching\Storages\FileStorage($this->getCacheDirectory()), self::CACHING);
 		if (!$cache->load(self::CACHING)) {
