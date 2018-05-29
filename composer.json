@@ -10,7 +10,7 @@
 		}
 	],
 	"require": {
-		"php": ">=7.1",
+		"php": ">=7.0.8",
 		"nette/bootstrap": "^2.4",
 		"nette/utils": "^2.4",
 		"nette/caching": "^2.5",
