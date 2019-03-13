@@ -23,6 +23,7 @@ class Configurator extends Nette\Configurator
 	 */
 	const CACHING = 'Drago.CacheConf';
 
+
 	/**
 	 * Auto-loading Classes.
 	 * @param string|string[] absolute path
@@ -33,6 +34,7 @@ class Configurator extends Nette\Configurator
 			->addDirectory($path)
 			->register();
 	}
+
 
 	/**
 	 * Search configuration files.
@@ -76,6 +78,7 @@ class Configurator extends Nette\Configurator
 		}
 	}
 
+
 	/**
 	 * Dispatch a HTTP request to a front controller.
 	 * @throws Throwable
@@ -86,5 +89,4 @@ class Configurator extends Nette\Configurator
 			->getByType(Nette\Application\Application::class)
 			->run();
 	}
-
 }
