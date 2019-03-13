@@ -19,10 +19,10 @@ composer require drago-ex/bootstrap
 // Configure the application.
 $app = new Drago\Configurator;
 
-// Autoloading classes.
+// Auto-loading Classes.
 $app->addAutoload(__DIR__);
 
-// Searching configuration files.
+// Search configuration files.
 $app->addFindConfig(__DIR__ . '/path/to/dir');
 
 // Run application.
