@@ -1,12 +1,10 @@
 ## Drago Bootstrap
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bca7c54deec24262898d74e62dcfbb1e)](https://www.codacy.com/app/accgit/bootstrap?utm_source=github.com&utm_medium=referral&utm_content=drago-ex/bootstrap&utm_campaign=badger)
-
 Basic configuration for applications.
 
 ## Requirements
 
-- PHP 5.6 or higher
+- PHP 7.0 or higher
 - composer
 
 ## Installation

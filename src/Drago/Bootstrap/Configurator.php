@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Drago Bootstrap
  * Copyright (c) 2015, Zdeněk Papučík
@@ -9,6 +11,7 @@ namespace Drago;
 use Nette;
 use Nette\Utils;
 use Nette\Caching;
+use Throwable;
 
 /**
  * Initial system DI container generator.
@@ -16,81 +19,70 @@ use Nette\Caching;
 class Configurator extends Nette\Configurator
 {
 	/**
-	 * Cache for automatic searching configuration files.
+	 * Cache for automatically found configuration files.
 	 */
 	const CACHING = 'Drago.CacheConf';
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->parameters = $this->parameters();
-	}
-
 	/**
-	 * Default parameters.
-	 * @return array
+	 * Auto-loading Classes.
+	 * @param string|string[] absolute path
 	 */
-	private function parameters()
-	{
-		$parms = $this->parameters;
-		$trace = debug_backtrace(PHP_VERSION_ID >= 50600 ? DEBUG_BACKTRACE_IGNORE_ARGS : false);
-		$parms['appDir'] = isset($trace[1]['file']) ? dirname($trace[1]['file']) : null;
-		$parms['wwwDir'] = $parms['wwwDir'] . DIRECTORY_SEPARATOR . 'www';
-		return $parms;
-	}
-
-	/**
-	 * Autoloading classes.
-	 * @param mixed $dirs
-	 */
-	public function addAutoload($dirs)
+	public function addAutoload($path)
 	{
 		$this->createRobotLoader()
-			->addDirectory($dirs)
+			->addDirectory($path)
 			->register();
 	}
 
 	/**
-	 * Searching configuration files.
-	 * @param mixed $dirs
-	 * @param mixed $exclude
+	 * Search configuration files.
+	 * @param string|string[] $paths
+	 * @param string|string[] $exclude
+	 * @throws Throwable
 	 */
-	public function addFindConfig($dirs, $exclude = null)
+	public function addFindConfig($paths, ...$exclude)
 	{
-		$cache = new Caching\Cache(new Caching\Storages\FileStorage($this->getCacheDirectory()), self::CACHING);
+		$storage = new Caching\Storages\FileStorage($this->getCacheDirectory());
+		$cache   = new Caching\Cache($storage, self::CACHING);
+
+		// Check the stored cache.
 		if (!$cache->load(self::CACHING)) {
 
-			// Configure parameters for searching configuration files.
-			foreach (Utils\Finder::findFiles('*.neon')->from($dirs)->exclude($exclude) as $row) {
-				$data[] = $row->getPathname();
+			// Setting search parameters.
+			$finder = Utils\Finder::findFiles('*.neon')
+				->from($paths)
+				->exclude($exclude);
+
+			$items = [];
+			foreach ($finder as $row) {
+				$items[] = $row->getPathname();
 			}
 
-			foreach ($data as $row) {
-				$name[] = basename($row);
+			$names = [];
+			foreach ($items as $row) {
+				$names[] = basename($row);
 			}
 
 			// Sort by numbers (if listed in the file name).
-			array_multisort($name, SORT_NUMERIC, $data);
-			if (isset($data)) {
-				$cache->save(self::CACHING, $data);
-			}
+			array_multisort($names, SORT_NUMERIC, $items);
+			$cache->save(self::CACHING, $items);
 		}
 
-		// Loads data from cache.
+		// Loading cached saved.
 		if ($cache->load(self::CACHING)) {
-			foreach ($cache->load(self::CACHING) as $files) {
-				$this->addConfig($files);
+			foreach ($cache->load(self::CACHING) as $row) {
+				$this->addConfig($row);
 			}
 		}
 	}
 
 	/**
-	 * Run application.
-	 * @return void
+	 * Dispatch a HTTP request to a front controller.
+	 * @throws Throwable
 	 */
 	public function run()
 	{
-		return $this->createContainer()
+		$this->createContainer()
 			->getByType(Nette\Application\Application::class)
 			->run();
 	}
