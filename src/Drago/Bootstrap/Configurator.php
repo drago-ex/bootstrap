@@ -25,7 +25,7 @@ class Configurator extends Nette\Configurator
 
 	/**
 	 * Auto-loading Classes.
-	 * @param string|string[] absolute path
+	 * @param $path string|string[] absolute path
 	 */
 	public function addAutoload($path)
 	{
@@ -36,10 +36,9 @@ class Configurator extends Nette\Configurator
 
 
 	/**
-	 * Search configuration files.
-	 * @param string|string[] $paths
-	 * @param string|string[] $exclude
-	 * @throws Throwable
+	 * Find configuration files.
+	 * @param $paths string|string[]
+	 * @param mixed  string|string[]
 	 */
 	public function addFindConfig($paths, ...$exclude)
 	{
