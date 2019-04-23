@@ -40,7 +40,7 @@ which is stored in the cache and then passed to the system container.
 If we need to preload some configuration files, we will do so before the file name
 add a number. In general, the rule that the higher the number, the higher the priority will be.
 
-## Warning
+## Notice
 
 Because caches only save paths to configuration files, it must always be deleted when
 create or delete configuration files to generate a new system container.
