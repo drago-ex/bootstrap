@@ -11,7 +11,6 @@ namespace Drago;
 use Nette;
 use Nette\Utils;
 use Nette\Caching;
-use Throwable;
 
 /**
  * Initial system DI container generator.
@@ -81,7 +80,6 @@ class Configurator extends Nette\Configurator
 
 	/**
 	 * Dispatch a HTTP request to a front controller.
-	 * @throws Throwable
 	 */
 	public function run()
 	{
