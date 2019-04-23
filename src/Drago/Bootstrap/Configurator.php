@@ -2,7 +2,7 @@
 
 /**
  * Drago Bootstrap
- * Copyright (c) 2015, Zdeněk Papučík
+ * @copyright Zdeněk Papučík
  */
 namespace Drago;
 
@@ -13,6 +13,7 @@ use Throwable;
 
 /**
  * Initial system DI container generator.
+ * @package Drago\Bootstrap
  */
 class Configurator extends Nette\Configurator
 {
