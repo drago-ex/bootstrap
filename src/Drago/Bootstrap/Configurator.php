@@ -37,7 +37,7 @@ class Configurator extends Nette\Configurator
 
 
 	/**
-	 * Find configuration files.
+	 * Search configuration files.
 	 * @param $paths string|string[]
 	 * @param mixed  string|string[]
 	 */
