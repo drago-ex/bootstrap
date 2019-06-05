@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 declare(strict_types = 1);
 
 /**
  * Drago Bootstrap
- * Package built on Nette Framework
+ * @copyright Zdeněk Papučík
  */
 namespace Drago;
 
