@@ -23,7 +23,7 @@ if ($cache->load($key)) {
 	}
 }
 
-Assert::same('conf.neon', 	$configs[0]);
+Assert::same('conf.neon',   $configs[0]);
 Assert::same('9.conf.neon', $configs[1]);
 
 $cache->remove($key);
