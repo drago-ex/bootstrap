@@ -17,6 +17,10 @@
 		"nette/caching": "^3.0",
 		"nette/application": "^3.0"
 	},
+	"require-dev": {
+		"nette/tester": "^2.0",
+		"tracy/tracy": "^2.3"
+	},
 	"autoload": {
 		"classmap": ["src/"]
 	}
