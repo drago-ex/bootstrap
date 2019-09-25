@@ -2,16 +2,18 @@
 
 declare(strict_types = 1);
 
-use Drago\Configurator;
+use Drago\ExtraConfigurator;
+use Nette\Application\Application;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 use Tester\Assert;
+use Tracy\Debugger;
 
 require __DIR__ . '/bootstrap.php';
 
-$conf = new Configurator();
+$conf = new ExtraConfigurator();
 $conf->setTempDirectory(__DIR__ . '/storage');
-$conf->addFindConfig(__DIR__ . '/conf');
+$conf->addFindConfig(__DIR__);
 
 $key = $conf::CACHING;
 $storage = new FileStorage(__DIR__ . '/storage/cache');
