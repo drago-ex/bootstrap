@@ -8,56 +8,56 @@ declare(strict_types = 1);
  */
 namespace Drago;
 
-use Nette;
-use Nette\Utils;
-use Nette\Caching;
+use Nette\Application\Application;
+use Nette\Caching\Cache;
+use Nette\Caching\Storages\FileStorage;
+use Nette\Configurator;
+use Nette\Utils\Finder;
 
 
 /**
  * Initial system DI container generator.
  * @package Drago\Bootstrap
  */
-class Configurator extends Nette\Configurator
+class ExtraConfigurator extends Configurator
 {
-	/**
-	 * Cache for automatically found configuration files.
-	 */
-	const CACHING = 'Drago.CacheConf';
+	const
+
+		// Cache for automatically found configuration files.
+		CACHING = 'Drago.CacheConf',
+
+		// A way to sort the found files.
+		SORTING = SORT_NUMERIC;
 
 
 	/**
 	 * Auto-loading Classes.
-	 * @param $path string|string[] absolute path
+	 * @param  string  ...$paths  absolute path
 	 */
-	public function addAutoload($path)
+	public function addRobotLoader(...$paths): RobotLoader
 	{
-		$this->createRobotLoader()
-			->addDirectory($path)
+		return $this->createRobotLoader()
+			->addDirectory(...$paths)
 			->register();
 	}
 
 
 	/**
-	 * Search configuration files.
-	 * @param $paths string|string[]
-	 * @param mixed  string|string[]
+	 * Searching for configuration files.
+	 * @param  string|string[]  $paths
+	 * @param  string|string[]  $masks
 	 */
-	public function addFindConfig($paths, ...$exclude)
+	public function addFindConfig($paths, ...$exclude): self
 	{
-		$storage = new Caching\Storages\FileStorage($this->getCacheDirectory());
-		$cache   = new Caching\Cache($storage, self::CACHING);
+		$storage = new FileStorage($this->getCacheDirectory());
+		$cache   = new Cache($storage, self::CACHING);
 
 		// Check the stored cache.
 		if (!$cache->load(self::CACHING)) {
 
-			// Setting search parameters.
-			$finder = Utils\Finder::findFiles('*.neon')
-				->from($paths)
-				->exclude($exclude);
-
 			$items = [];
-			foreach ($finder as $row) {
-				$items[] = $row->getPathname();
+			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $key => $file) {
+				$items[] = $key;
 			}
 
 			$names = [];
@@ -65,27 +65,26 @@ class Configurator extends Nette\Configurator
 				$names[] = basename($row);
 			}
 
-			// Sort by numbers (if listed in the file name).
-			array_multisort($names, SORT_NUMERIC, $items);
+			array_multisort($names, self::SORTING, $items);
 			$cache->save(self::CACHING, $items);
 		}
 
 		// Loading cached saved.
 		if ($cache->load(self::CACHING)) {
 			foreach ($cache->load(self::CACHING) as $row) {
-				$this->addConfig($row);
+				$configs = $this->addConfig($row);
 			}
+			return $configs;
 		}
 	}
 
 
 	/**
-	 * Dispatch a HTTP request to a front controller.
+	 * Get application services.
 	 */
-	public function run()
+	public function addApplication(): Application
 	{
-		$this->createContainer()
-			->getByType(Nette\Application\Application::class)
-			->run();
+		return $this->createContainer()
+			->getByType(Application::class);
 	}
 }
