@@ -12,6 +12,7 @@ use Nette\Application\Application;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 use Nette\Configurator;
+use Nette\Loaders\RobotLoader;
 use Nette\Utils\Finder;
 
 
