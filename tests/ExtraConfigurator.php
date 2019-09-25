@@ -3,11 +3,9 @@
 declare(strict_types = 1);
 
 use Drago\ExtraConfigurator;
-use Nette\Application\Application;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 use Tester\Assert;
-use Tracy\Debugger;
 
 require __DIR__ . '/bootstrap.php';
 
