@@ -28,6 +28,8 @@ class TestFindByArray
 		Assert::same('conf.neon',    $configs[1]);
 		Assert::same('9.conf.neon',  $configs[2]);
 
+		$cache->storage($key)->remove($key);
+
 		return $app;
 	}
 }
