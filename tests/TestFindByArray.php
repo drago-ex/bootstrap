@@ -3,11 +3,9 @@
 declare(strict_types = 1);
 
 use Drago\ExtraConfigurator;
-use Test\Caching;
+use Test\CacheUp;
 use Tester\Assert;
 
-require __DIR__ . '/bootstrap.php';
-require __DIR__ . '/Caching.php';
 
 class TestFindByArray
 {
@@ -21,16 +19,15 @@ class TestFindByArray
 		]);
 
 		$key = ExtraConfigurator::CACHING;
-		$cache = new Caching();
+		$cache = new CacheUp();
 		$configs = $cache->cache($key);
 
-		Assert::same('conf.2.neon', $configs[0]);
-		Assert::same('conf.neon',   $configs[1]);
-		Assert::same('9.conf.neon', $configs[2]);
+		Assert::same('exclude.neon', $configs[0]);
+		Assert::same('conf.neon',    $configs[1]);
+		Assert::same('9.conf.neon',  $configs[2]);
+
+		$cache->storage($key)->remove($key);
 
 		return $app;
 	}
 }
-
-$test = new TestFindByArray();
-$test->boot();

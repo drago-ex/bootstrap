@@ -8,7 +8,7 @@ use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 
 
-class Caching
+class CacheUp
 {
 	public function storage(string $key): Cache
 	{
