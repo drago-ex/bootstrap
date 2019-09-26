@@ -14,7 +14,7 @@ class TestFindByString
 	public function boot(): ExtraConfigurator
 	{
 		$app = new ExtraConfigurator();
-		$app->setTempDirectory(__DIR__ . '/storage');
+		$app->setTempDirectory(__DIR__ . '/storage.string');
 		$app->addFindConfig(__DIR__ . '/conf');
 
 		$key = ExtraConfigurator::CACHING;
@@ -23,8 +23,6 @@ class TestFindByString
 
 		Assert::same('conf.neon',   $configs[0]);
 		Assert::same('9.conf.neon', $configs[1]);
-
-		$cache->storage($key)->remove($key);
 
 		return $app;
 	}

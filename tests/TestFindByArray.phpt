@@ -14,7 +14,7 @@ class TestFindByArray
 	public function boot(): ExtraConfigurator
 	{
 		$app = new ExtraConfigurator();
-		$app->setTempDirectory(__DIR__ . '/storage');
+		$app->setTempDirectory(__DIR__ . '/storage.array');
 		$app->addFindConfig([
 			__DIR__ . '/conf',
 			__DIR__ . '/conf.2'
@@ -27,8 +27,6 @@ class TestFindByArray
 		Assert::same('conf.2.neon', $configs[0]);
 		Assert::same('conf.neon',   $configs[1]);
 		Assert::same('9.conf.neon', $configs[2]);
-
-		$cache->storage($key)->remove($key);
 
 		return $app;
 	}
