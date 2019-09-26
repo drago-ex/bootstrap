@@ -14,8 +14,8 @@ class TestExclude
 	public function boot(): ExtraConfigurator
 	{
 		$app = new ExtraConfigurator();
-		$app->setTempDirectory(__DIR__ . '/storage.exclude');
-		$app->addFindConfig(__DIR__, 'exclude');
+		$app->setTempDirectory(__DIR__ . '/storage');
+		$app->addFindConfig(__DIR__, 'conf.2');
 
 		$key = ExtraConfigurator::CACHING;
 		$cache = new Caching();

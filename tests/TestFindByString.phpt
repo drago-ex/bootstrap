@@ -14,7 +14,7 @@ class TestFindByString
 	public function boot(): ExtraConfigurator
 	{
 		$app = new ExtraConfigurator();
-		$app->setTempDirectory(__DIR__ . '/storage.string');
+		$app->setTempDirectory(__DIR__ . '/storage');
 		$app->addFindConfig(__DIR__ . '/conf');
 
 		$key = ExtraConfigurator::CACHING;

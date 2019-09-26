@@ -14,7 +14,7 @@ class TestFindByArray
 	public function boot(): ExtraConfigurator
 	{
 		$app = new ExtraConfigurator();
-		$app->setTempDirectory(__DIR__ . '/storage.array');
+		$app->setTempDirectory(__DIR__ . '/storage');
 		$app->addFindConfig([
 			__DIR__ . '/conf',
 			__DIR__ . '/conf.2'
