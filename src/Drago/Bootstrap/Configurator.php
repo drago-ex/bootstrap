@@ -75,8 +75,8 @@ class ExtraConfigurator extends Configurator
 			foreach ($cache->load(self::CACHING) as $row) {
 				$configs = $this->addConfig($row);
 			}
-			return $configs;
 		}
+		return $configs;
 	}
 
 
