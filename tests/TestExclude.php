@@ -20,6 +20,7 @@ class TestExclude
 		$cache = new Caching();
 		$configs = $cache->cache($key);
 
+		Assert::false(in_array('conf.2', $configs));
 		Assert::same('conf.neon',   $configs[0]);
 		Assert::same('9.conf.neon', $configs[1]);
 
