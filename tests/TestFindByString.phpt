@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use Drago\ExtraConfigurator;
+use Test\Caching;
 use Tester\Assert;
 
 require __DIR__ . '/bootstrap.php';
