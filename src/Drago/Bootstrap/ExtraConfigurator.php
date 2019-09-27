@@ -38,7 +38,7 @@ class ExtraConfigurator extends Configurator
 	public function addRobotLoader(...$paths): RobotLoader
 	{
 		return $this->createRobotLoader()
-			->addDirectory(...$paths)
+			->addDirectory($paths)
 			->register();
 	}
 
