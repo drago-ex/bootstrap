@@ -6,6 +6,7 @@ declare(strict_types = 1);
  * Drago Bootstrap
  * Package built on Nette Framework
  */
+
 namespace Drago;
 
 use Nette\Application\Application;
@@ -22,7 +23,7 @@ use Nette\Utils\Finder;
  */
 class ExtraConfigurator extends Configurator
 {
-	const
+	public const
 
 		// Cache for automatically found configuration files.
 		CACHING = 'Drago.CacheConf',
@@ -51,11 +52,10 @@ class ExtraConfigurator extends Configurator
 	public function addFindConfig($paths, ...$exclude): self
 	{
 		$storage = new FileStorage($this->getCacheDirectory());
-		$cache   = new Cache($storage, self::CACHING);
+		$cache = new Cache($storage, self::CACHING);
 
 		// Check the stored cache.
 		if (!$cache->load(self::CACHING)) {
-
 			$items = [];
 			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $key => $file) {
 				$items[] = $key;

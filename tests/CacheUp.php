@@ -13,7 +13,7 @@ class CacheUp
 	public function storage(string $key): Cache
 	{
 		$storage = new FileStorage(__DIR__ . '/storage/cache');
-		$cache   = new Cache($storage, $key);
+		$cache = new Cache($storage, $key);
 		return $cache;
 	}
 

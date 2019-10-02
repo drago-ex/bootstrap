@@ -19,7 +19,7 @@ class TestFindByString
 		$cache = new CacheUp();
 		$configs = $cache->cache($key);
 
-		Assert::same('conf.neon',   $configs[0]);
+		Assert::same('conf.neon', $configs[0]);
 		Assert::same('9.conf.neon', $configs[1]);
 
 		$cache->storage($key)->remove($key);

@@ -19,9 +19,9 @@ class TestExclude
 		$cache = new CacheUp();
 		$configs = $cache->cache($key);
 
-		Assert::same('conf.neon',   $configs[0]);
+		Assert::same('conf.neon', $configs[0]);
 		Assert::same('9.conf.neon', $configs[1]);
-		Assert::false(in_array('exclude.neon', $configs));
+		Assert::false(in_array('exclude.neon', $configs, true));
 
 		$cache->storage($key)->remove($key);
 
