@@ -3,7 +3,7 @@
 declare(strict_types = 1);
 
 /**
- * Drago Bootstrap
+ * Drago Extension
  * Package built on Nette Framework
  */
 
