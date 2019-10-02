@@ -19,7 +19,6 @@ use Nette\Utils\Finder;
 
 /**
  * Initial system DI container generator.
- * @package Drago\Bootstrap
  */
 class ExtraConfigurator extends Configurator
 {
