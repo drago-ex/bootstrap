@@ -81,13 +81,11 @@ class ExtraConfigurator extends Configurator
 
 
 	/**
-	 * Dispatch a HTTP request to a front controller.
-	 * @throws \Throwable
+	 * Front Controller.
 	 */
-	public function running(): void
+	public function app(): Application
 	{
-		$this->createContainer()
-			->getByType(Application::class)
-			->run();
+		return $this->createContainer()
+			->getByType(Application::class);
 	}
 }
