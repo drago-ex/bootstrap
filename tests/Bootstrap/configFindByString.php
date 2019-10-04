@@ -8,7 +8,7 @@ use Tester\Assert;
 
 function testByString()
 {
-	$app = new ExtraConfigurator();
+	$app = new ExtraConfigurator;
 	$app->setTempDirectory(getTempDir());
 	$app->addFindConfig(getFilesDir() . 'conf');
 
