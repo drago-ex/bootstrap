@@ -15,7 +15,6 @@ use Nette\Caching\Storages\FileStorage;
 use Nette\Configurator;
 use Nette\Loaders\RobotLoader;
 use Nette\Utils\Finder;
-use Tracy\Debugger;
 
 
 /**

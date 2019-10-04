@@ -12,7 +12,7 @@ function testByArray()
 	$app->setTempDirectory(getTempDir());
 	$app->addFindConfig([
 		getFilesDir() . 'conf',
-		getFilesDir() . 'conf.2'
+		getFilesDir() . 'conf.2',
 	]);
 
 	$cache = new ConfigCache(ExtraConfigurator::CACHING);
