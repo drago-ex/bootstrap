@@ -11,3 +11,19 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 
 Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
+
+
+function getTempDir(): string
+{
+	$dir = __DIR__ . '/tmp/';
+	if (!is_dir($dir)) {
+		mkdir($dir);
+	}
+	return $dir;
+}
+
+
+function getFilesDir(): string
+{
+	return __DIR__ . '/files/';
+}

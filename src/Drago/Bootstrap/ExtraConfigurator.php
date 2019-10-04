@@ -15,6 +15,7 @@ use Nette\Caching\Storages\FileStorage;
 use Nette\Configurator;
 use Nette\Loaders\RobotLoader;
 use Nette\Utils\Finder;
+use Tracy\Debugger;
 
 
 /**
@@ -70,6 +71,7 @@ class ExtraConfigurator extends Configurator
 		}
 
 		// Loading cached saved.
+		$configs = [];
 		if ($cache->load(self::CACHING)) {
 			foreach ($cache->load(self::CACHING) as $row) {
 				$configs = $this->addConfig($row);
