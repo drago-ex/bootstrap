@@ -7,13 +7,13 @@ use Test\CacheUp;
 use Tester\Assert;
 
 
-class TestFindByString
+class TestExclude
 {
 	public function boot(): ExtraConfigurator
 	{
 		$app = new ExtraConfigurator();
-		$app->setTempDirectory(__DIR__ . '/storage');
-		$app->addFindConfig(__DIR__ . '/conf');
+		$app->setTempDirectory(__DIR__ . '/../storage');
+		$app->addFindConfig(__DIR__ . '/../files', 'conf.2');
 
 		$key = ExtraConfigurator::CACHING;
 		$cache = new CacheUp();
@@ -21,6 +21,7 @@ class TestFindByString
 
 		Assert::same('conf.neon', $configs[0]);
 		Assert::same('9.conf.neon', $configs[1]);
+		Assert::false(in_array('exclude.neon', $configs, true));
 
 		$cache->storage($key)->remove($key);
 
