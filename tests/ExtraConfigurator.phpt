@@ -7,6 +7,7 @@ require __DIR__ . '/ConfigCache.php';
 require __DIR__ . '/Bootstrap/configFindByString.php';
 require __DIR__ . '/Bootstrap/configFindByArray.php';
 require __DIR__ . '/Bootstrap/configExcludeDirectoryFind.php';
+require __DIR__ . '/Bootstrap/configRunning.php';
 
 
 testByString();
