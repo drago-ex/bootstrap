@@ -13,7 +13,6 @@ use Nette\Application\Application;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 use Nette\Configurator;
-use Nette\Loaders\RobotLoader;
 use Nette\Utils\Finder;
 
 
@@ -22,25 +21,8 @@ use Nette\Utils\Finder;
  */
 class ExtraConfigurator extends Configurator
 {
-	public const
-
-		// Cache for automatically found configuration files.
-		CACHING = 'Drago.CacheConf',
-
-		// A way to sort the found files.
-		SORTING = SORT_NUMERIC;
-
-
-	/**
-	 * Auto-loading Classes.
-	 * @param  string  ...$paths  absolute path
-	 */
-	public function addRobotLoader(...$paths): RobotLoader
-	{
-		return $this->createRobotLoader()
-			->addDirectory($paths)
-			->register();
-	}
+	// Cache for found configuration files.
+	public const CACHING = 'Drago.CacheConf';
 
 
 	/**
@@ -65,7 +47,7 @@ class ExtraConfigurator extends Configurator
 				$names[] = basename($row);
 			}
 
-			array_multisort($names, self::SORTING, $items);
+			array_multisort($names, SORT_NUMERIC, $items);
 			$cache->save(self::CACHING, $items);
 		}
 
