@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace Test\Bootstrap;
 
+use ConfigCache;
 use Drago\ExtraConfigurator;
 use Tester\Assert;
-use ConfigCache;
 
 require __DIR__ . '/../bootstrap.php';
 
