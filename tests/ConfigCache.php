@@ -8,18 +8,23 @@ use Nette\Caching\Storages\FileStorage;
 
 class ConfigCache
 {
+	/** @var string */
 	private $key;
 
+	/** @var string */
+	private $tempDir;
 
-	public function __construct(string $key)
+
+	public function __construct(string $key, string $tempDir)
 	{
 		$this->key = $key;
+		$this->tempDir = $tempDir;
 	}
 
 
 	private function storage(): Cache
 	{
-		$cache = new Cache(new FileStorage(getTempDir() . 'cache'), $this->key);
+		$cache = new Cache(new FileStorage($this->tempDir . '/cache'), $this->key);
 		return $cache;
 	}
 
@@ -35,11 +40,5 @@ class ConfigCache
 			}
 		}
 		return $configs;
-	}
-
-
-	public function removeCache(): void
-	{
-		$this->storage()->remove($this->key);
 	}
 }
