@@ -2,6 +2,8 @@
 
 declare(strict_types = 1);
 
+namespace Test;
+
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 
@@ -40,5 +42,11 @@ class ConfigCache
 			}
 		}
 		return $configs;
+	}
+
+
+	public function remove(): void
+	{
+		$this->storage()->remove($this->key);
 	}
 }
