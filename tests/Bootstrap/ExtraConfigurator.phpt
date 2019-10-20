@@ -2,8 +2,6 @@
 
 declare(strict_types = 1);
 
-namespace Test\DI;
-
 use Drago\ExtraConfigurator;
 use Nette\Application\Application;
 use Test\ConfigCache;
