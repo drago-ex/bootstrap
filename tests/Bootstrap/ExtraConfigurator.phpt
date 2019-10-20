@@ -2,7 +2,8 @@
 
 declare(strict_types = 1);
 
-use Drago\ExtraConfigurator;
+namespace Test\DI;
+
 use Nette\Application\Application;
 use Test\ConfigCache;
 use Tester\Assert;
@@ -27,7 +28,7 @@ test(function () use ($boot) {
 test(function () use ($boot) {
 	$boot->addFindConfig([
 		__DIR__ . '/../file/conf',
-		__DIR__ . '/../file/conf.2'
+		__DIR__ . '/../file/conf.2',
 	]);
 
 	$cache = new ConfigCache($boot::CACHING, TEMP_DIR);
