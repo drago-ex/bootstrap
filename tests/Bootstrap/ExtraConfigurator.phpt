@@ -6,7 +6,7 @@ use Nette\Application\Application;
 use Test\ConfigCache;
 use Tester\Assert;
 
-/** @var $boot ExtraConfigurator */
+/** @var $boot \Drago\ExtraConfigurator */
 $boot = require __DIR__ . '/../bootstrap.php';
 
 

@@ -9,17 +9,13 @@ declare(strict_types = 1);
 
 namespace Drago;
 
-use Nette\Application\Application;
-use Nette\Caching\Cache;
-use Nette\Caching\Storages\FileStorage;
-use Nette\Configurator;
-use Nette\Utils\Finder;
+use Nette;
 
 
 /**
  * Initial system DI container generator.
  */
-class ExtraConfigurator extends Configurator
+class ExtraConfigurator extends Nette\Configurator
 {
 	// Cache for found configuration files.
 	public const CACHING = 'Drago.CacheConf';
@@ -32,13 +28,13 @@ class ExtraConfigurator extends Configurator
 	 */
 	public function addFindConfig($paths, ...$exclude): self
 	{
-		$storage = new FileStorage($this->getCacheDirectory());
-		$cache = new Cache($storage, self::CACHING);
+		$storage = new Nette\Caching\Storages\FileStorage($this->getCacheDirectory());
+		$cache = new Nette\Caching\Cache($storage, self::CACHING);
 
 		// Check the stored cache.
 		if (!$cache->load(self::CACHING)) {
 			$items = [];
-			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $key => $file) {
+			foreach (Nette\Utils\Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $key => $file) {
 				$items[] = $key;
 			}
 
@@ -65,9 +61,9 @@ class ExtraConfigurator extends Configurator
 	/**
 	 * Front Controller.
 	 */
-	public function app(): Application
+	public function app(): Nette\Application\Application
 	{
 		return $this->createContainer()
-			->getByType(Application::class);
+			->getByType(Nette\Application\Application::class);
 	}
 }
