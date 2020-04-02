@@ -25,8 +25,8 @@ class ConfigCache
 
 	private function storage(): Caching\Cache
 	{
-        return new Caching\Cache(new Caching\Storages\FileStorage(
-            $this->tempDir . '/cache'), $this->key);
+		return new Caching\Cache(new Caching\Storages\FileStorage(
+		$this->tempDir . '/cache'), $this->key);
 	}
 
 
