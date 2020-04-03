@@ -25,7 +25,7 @@ class ConfigCache
 	{
 		$tempDir = $this->tempDir . '/cache';
 		$storage = new Caching\Storages\FileStorage($tempDir);
-		return new Caching\Cache(new $storage, $this->key);
+		return new Caching\Cache($storage, $this->key);
 	}
 
 
