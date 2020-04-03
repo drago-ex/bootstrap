@@ -3,10 +3,9 @@
 declare(strict_types = 1);
 
 use Nette\Application\Application;
-use Test\ConfigCache;
 use Tester\Assert;
 
-/** @var $boot \Drago\ExtraConfigurator */
+/** @var $boot Drago\Bootstrap\ExtraConfigurator */
 $boot = require __DIR__ . '/../bootstrap.php';
 
 

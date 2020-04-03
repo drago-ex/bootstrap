@@ -7,15 +7,19 @@ declare(strict_types = 1);
  * Package built on Nette Framework
  */
 
-namespace Drago;
+namespace Drago\Bootstrap;
 
-use Nette;
+use Nette\Application\Application;
+use Nette\Caching\Cache;
+use Nette\Caching\Storages\FileStorage;
+use Nette\Configurator;
+use Nette\Utils\Finder;
 
 
 /**
  * Initial system DI container generator.
  */
-class ExtraConfigurator extends Nette\Configurator
+class ExtraConfigurator extends Configurator
 {
 	// Cache for found configuration files.
 	public const CACHING = 'Drago.CacheConf';
@@ -25,45 +29,43 @@ class ExtraConfigurator extends Nette\Configurator
 	 * Searching for configuration files.
 	 * @param  string|string[]  $paths
 	 * @param  string|string[]  $masks
+	 * @return static
 	 */
-	public function addFindConfig($paths, ...$exclude): self
+	public function addFindConfig($paths, ...$exclude)
 	{
-		$storage = new Nette\Caching\Storages\FileStorage($this->getCacheDirectory());
-		$cache = new Nette\Caching\Cache($storage, self::CACHING);
+		$storage = new FileStorage($this->getCacheDirectory());
+		$cache = new Cache($storage, self::CACHING);
 
 		// Check the stored cache.
 		if (!$cache->load(self::CACHING)) {
 			$items = [];
-			foreach (Nette\Utils\Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $key => $file) {
+			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $key => $file) {
 				$items[] = $key;
 			}
-
 			$names = [];
 			foreach ($items as $row) {
 				$names[] = basename($row);
 			}
-
 			array_multisort($names, SORT_NUMERIC, $items);
 			$cache->save(self::CACHING, $items);
 		}
 
 		// Loading cached saved.
-		$configs = [];
 		if ($cache->load(self::CACHING)) {
 			foreach ($cache->load(self::CACHING) as $row) {
-				$configs = $this->addConfig($row);
+				$this->addConfig($row);
 			}
 		}
-		return $configs;
+		return $this;
 	}
 
 
 	/**
 	 * Front Controller.
 	 */
-	public function app(): Nette\Application\Application
+	public function app(): Application
 	{
 		return $this->createContainer()
-			->getByType(Nette\Application\Application::class);
+			->getByType(Application::class);
 	}
 }
