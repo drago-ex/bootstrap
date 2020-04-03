@@ -41,7 +41,7 @@ test(function () use ($boot, $configCache) {
 
 
 test(function () use ($boot, $configCache) {
-	$boot->addFindConfig(CONF_DIR . '/file', 'conf.2');
+	$boot->addFindConfig(CONF_DIR, 'conf.2');
 	$config = $configCache()->getCache();
 
 	Assert::same('conf.neon', $config[0]);
