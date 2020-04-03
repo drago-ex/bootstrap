@@ -10,6 +10,8 @@ declare(strict_types = 1);
 namespace Drago\Bootstrap;
 
 use Nette;
+use Nette\Application\Application;
+use Nette\Caching;
 
 
 /**
@@ -29,8 +31,8 @@ class ExtraConfigurator extends Nette\Configurator
 	 */
 	public function addFindConfig($paths, ...$exclude)
 	{
-		$storage = new Nette\Caching\Storages\FileStorage($this->getCacheDirectory());
-		$cache = new Nette\Caching\Cache($storage, self::CACHING);
+		$storage = new Caching\Storages\FileStorage($this->getCacheDirectory());
+		$cache = new Caching\Cache($storage, self::CACHING);
 
 		// Check the stored cache.
 		if (!$cache->load(self::CACHING)) {
@@ -59,9 +61,9 @@ class ExtraConfigurator extends Nette\Configurator
 	/**
 	 * Front Controller.
 	 */
-	public function app(): Nette\Application\Application
+	public function app(): Application
 	{
 		return $this->createContainer()
-			->getByType(Nette\Application\Application::class);
+			->getByType(Application::class);
 	}
 }

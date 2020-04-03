@@ -11,13 +11,13 @@ $boot = require __DIR__ . '/../bootstrap.php';
 test(function () use ($boot) {
 	$boot->addFindConfig(__DIR__ . '/../file/conf');
 
-	$cache = new ConfigCache($boot::CACHING, TEMP_DIR);
-	$configs = $cache->getCache();
+	$configCache = new ConfigCache($boot::CACHING, TEMP_DIR);
+	$config = $configCache->getCache();
 
-	Assert::same('conf.neon', $configs[0]);
-	Assert::same('9.conf.neon', $configs[1]);
+	Assert::same('conf.neon', $config[0]);
+	Assert::same('9.conf.neon', $config[1]);
 
-	$cache->remove();
+	$configCache->remove();
 });
 
 
@@ -27,28 +27,28 @@ test(function () use ($boot) {
 		__DIR__ . '/../file/conf.2',
 	]);
 
-	$cache = new ConfigCache($boot::CACHING, TEMP_DIR);
-	$configs = $cache->getCache();
+	$configCache = new ConfigCache($boot::CACHING, TEMP_DIR);
+	$config = $configCache->getCache();
 
-	Assert::same('exclude.neon', $configs[0]);
-	Assert::same('conf.neon', $configs[1]);
-	Assert::same('9.conf.neon', $configs[2]);
+	Assert::same('exclude.neon', $config[0]);
+	Assert::same('conf.neon', $config[1]);
+	Assert::same('9.conf.neon', $config[2]);
 
-	$cache->remove();
+	$configCache->remove();
 });
 
 
 test(function () use ($boot) {
 	$boot->addFindConfig(__DIR__ . '/../file', 'conf.2');
 
-	$cache = new ConfigCache($boot::CACHING, TEMP_DIR);
-	$configs = $cache->getCache();
+	$configCache = new ConfigCache($boot::CACHING, TEMP_DIR);
+	$config = $configCache->getCache();
 
-	Assert::same('conf.neon', $configs[0]);
-	Assert::same('9.conf.neon', $configs[1]);
-	Assert::false(in_array('exclude.neon', $configs, true));
+	Assert::same('conf.neon', $config[0]);
+	Assert::same('9.conf.neon', $config[1]);
+	Assert::false(in_array('exclude.neon', $config, true));
 
-	$cache->remove();
+	$configCache->remove();
 });
 
 
