@@ -2,8 +2,7 @@
 
 declare(strict_types = 1);
 
-use Nette\Caching\Cache;
-use Nette\Caching\Storages\FileStorage;
+use Nette\Caching;
 
 
 class ConfigCache
@@ -22,10 +21,11 @@ class ConfigCache
 	}
 
 
-	private function storage(): Cache
+	private function storage(): Caching\Cache
 	{
 		$tempDir = $this->tempDir . '/cache';
-		return new Cache(new FileStorage($tempDir), $this->key);
+		$storage = new Caching\Storages\FileStorage($tempDir);
+		return new Caching\Cache(new $storage, $this->key);
 	}
 
 

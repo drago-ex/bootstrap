@@ -2,7 +2,6 @@
 
 declare(strict_types = 1);
 
-use Nette\Application\Application;
 use Tester\Assert;
 
 /** @var $boot Drago\Bootstrap\ExtraConfigurator */
@@ -54,5 +53,5 @@ test(function () use ($boot) {
 
 
 test(function () use ($boot) {
-	Assert::type(Application::class, $boot->app());
+	Assert::type(Nette\Application\Application::class, $boot->app());
 });
