@@ -23,6 +23,23 @@ class ExtraConfigurator extends Nette\Configurator
 	public const CACHING = 'Drago.CacheConf';
 
 
+	public function __construct()
+	{
+		parent::__construct();
+		$this->parameters = $this->parameters();
+	}
+
+
+	private function parameters(): array
+	{
+		$parms = $this->parameters;
+		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		$parms['appDir'] = isset($trace[1]['file']) ? dirname($trace[1]['file']) : null;
+		$parms['wwwDir'] = $parms['wwwDir'] . DIRECTORY_SEPARATOR . 'www';
+		return $parms;
+	}
+
+
 	/**
 	 * Searching for configuration files.
 	 * @param  string|string[]  $paths
