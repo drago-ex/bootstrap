@@ -2,9 +2,11 @@
 
 declare(strict_types = 1);
 
+use Drago\Bootstrap\ExtraConfigurator;
+use Nette\Application\Application;
 use Tester\Assert;
 
-/** @var $boot Drago\Bootstrap\ExtraConfigurator */
+/** @var $boot ExtraConfigurator */
 $boot = require __DIR__ . '/../bootstrap.php';
 
 
@@ -53,5 +55,5 @@ test(function () use ($boot, $configCache) {
 
 
 test(function () use ($boot) {
-	Assert::type(Nette\Application\Application::class, $boot->app());
+	Assert::type(Application::class, $boot->app());
 });

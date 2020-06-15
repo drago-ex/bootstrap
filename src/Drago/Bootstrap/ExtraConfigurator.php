@@ -9,52 +9,37 @@ declare(strict_types = 1);
 
 namespace Drago\Bootstrap;
 
-use Nette;
 use Nette\Application\Application;
-use Nette\Caching;
+use Nette\Caching\Cache;
+use Nette\Caching\Storages\FileStorage;
+use Nette\Configurator;
+use Nette\Utils\Finder;
 
 
 /**
  * Initial system DI container generator.
  */
-class ExtraConfigurator extends Nette\Configurator
+class ExtraConfigurator extends Configurator
 {
 	// Cache for found configuration files.
 	public const CACHING = 'Drago.CacheConf';
 
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->parameters = $this->parameters();
-	}
-
-
-	private function parameters(): array
-	{
-		$parms = $this->parameters;
-		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-		$parms['appDir'] = isset($trace[1]['file']) ? dirname($trace[1]['file']) : null;
-		$parms['wwwDir'] = $parms['wwwDir'] . DIRECTORY_SEPARATOR . 'www';
-		return $parms;
-	}
-
-
 	/**
 	 * Searching for configuration files.
-	 * @param  string|string[]  $paths
-	 * @param  string|string[]  $masks
+	 * @param  string|string[] $paths
+	 * @param  string|string[] $exclude
 	 * @return static
 	 */
 	public function addFindConfig($paths, ...$exclude)
 	{
-		$storage = new Caching\Storages\FileStorage($this->getCacheDirectory());
-		$cache = new Caching\Cache($storage, self::CACHING);
+		$storage = new FileStorage($this->getCacheDirectory());
+		$cache = new Cache($storage, self::CACHING);
 
 		// Check the stored cache.
 		if (!$cache->load(self::CACHING)) {
 			$items = [];
-			foreach (Nette\Utils\Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $key => $file) {
+			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $key => $file) {
 				$items[] = $key;
 			}
 			$names = [];
