@@ -7,7 +7,7 @@ declare(strict_types = 1);
  * Package built on Nette Framework
  */
 
-namespace Drago;
+namespace Drago\Bootstrap;
 
 use Nette\Application\Application;
 use Nette\Caching\Cache;
