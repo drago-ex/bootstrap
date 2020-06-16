@@ -5,7 +5,7 @@ declare(strict_types = 1);
 use Nette\Application\Application;
 use Tester\Assert;
 
-/** @var $boot Drago\Bootstrap\ExtraConfigurator */
+/** @var $boot Drago\ExtraConfigurator */
 $boot = require __DIR__ . '/../bootstrap.php';
 
 
