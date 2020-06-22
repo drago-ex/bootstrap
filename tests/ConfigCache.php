@@ -8,11 +8,8 @@ use Nette\Caching\Storages\FileStorage;
 
 class ConfigCache
 {
-	/** @var string */
-	private $key;
-
-	/** @var string */
-	private $tempDir;
+	private string $key;
+	private string $tempDir;
 
 
 	public function __construct(string $key, string $tempDir)
