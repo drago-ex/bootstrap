@@ -3,7 +3,7 @@
 </p>
 
 <h3 align="center">Drago Extension</h3>
-<p align="center">Simple packages built on Nette Framework</p>
+<p align="center">Extension for Nette Framework</p>
 
 ## Info
 Basic configuration for applications.
@@ -15,7 +15,7 @@ Basic configuration for applications.
 [![Coverage Status](https://coveralls.io/repos/github/drago-ex/bootstrap/badge.svg?branch=master)](https://coveralls.io/github/drago-ex/bootstrap?branch=master)
 
 ## Requirements
-- PHP 7.1 or higher
+- PHP 7.4 or higher
 - composer
 
 ## Installation
@@ -23,5 +23,27 @@ Basic configuration for applications.
 composer require drago-ex/bootstrap
 ```
 
-## Documentation
-https://github.com/drago-ex/bootstrap/wiki/Documentation
+## Description of the method that searches for configuration files
+When running an application, the existence of the cache (Drago.CacheConf) is verified, and if it is empty, it activates searching for configuration files. During searches, the paths to the configuration files found are found, which is stored in the cache and then passed to the system container.
+
+## How to specify the priorities for configuration files
+If we need to preload some configuration files, we will do so before the file name add a number. In general, the rule that the higher the number, the higher the priority will be.
+
+## Notice
+Because caches only save paths to configuration files, it must always be deleted when create or delete configuration files to generate a new system container.
+
+## Use
+```php
+class Bootstrap
+{
+	public static function boot(): ExtraConfigurator
+	{
+		$app = new ExtraConfigurator;
+
+		// Finder configuration files.
+		$app->addFindConfig(__DIR__);
+
+		return $app;
+	}
+}
+```
