@@ -1,7 +1,7 @@
 {
 	"name": "drago-ex/bootstrap",
 	"type": "library",
-	"description": "Basic configuration for applications.",
+	"description": "Basic configuration for Nette Framework",
 	"license": ["MIT"],
 	"authors": [
 		{
