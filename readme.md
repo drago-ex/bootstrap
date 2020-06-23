@@ -41,7 +41,7 @@ class Bootstrap
 		$app = new ExtraConfigurator;
 
 		// Finder configuration files.
-		$app->addFindConfig(__DIR__. '/path/to/dir');
+		$app->addFindConfig(__DIR__ . '/path/to/dir');
 
 		return $app;
 	}
@@ -51,11 +51,11 @@ class Bootstrap
 Multiple search.
 ```php
 $app->addFindConfig([
-	__DIR__. '/path/to/dir',
-	__DIR__. '/path/to/dir'
+	__DIR__ . '/path/to/dir',
+	__DIR__ . '/path/to/dir'
 ]);
 ```
 
 Search exclusion.
 ```php
-$app->addFindConfig(__DIR__. '/path/to/dir', 'exclude');
+$app->addFindConfig(__DIR__ . '/path/to/dir', 'exclude');
