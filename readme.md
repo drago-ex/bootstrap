@@ -6,7 +6,7 @@
 <p align="center">Extension for Nette Framework</p>
 
 ## Info
-Basic configuration for applications.
+Basic configuration.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/drago-ex/bootstrap/master/license.md)
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Fbootstrap.svg)](https://badge.fury.io/ph/drago-ex%2Fbootstrap)
