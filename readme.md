@@ -41,7 +41,7 @@ class Bootstrap
 		$app = new ExtraConfigurator;
 
 		// Finder configuration files.
-		$app->addFindConfig(__DIR__);
+		$app->addFindConfig(__DIR__. '/path/to/dir');
 
 		return $app;
 	}
