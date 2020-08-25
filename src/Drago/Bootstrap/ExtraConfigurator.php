@@ -22,7 +22,7 @@ use Nette\Utils\Finder;
 class ExtraConfigurator extends Configurator
 {
 	// Cache for found configuration files.
-	public const CACHING = 'Drago.CacheConf';
+	public const CACHING = 'drago.cacheConf';
 
 
 	/**
