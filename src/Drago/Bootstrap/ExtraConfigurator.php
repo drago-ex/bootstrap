@@ -14,6 +14,7 @@ use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 use Nette\Configurator;
 use Nette\Utils\Finder;
+use Throwable;
 
 
 /**
@@ -27,11 +28,9 @@ class ExtraConfigurator extends Configurator
 
 	/**
 	 * Searching for configuration files.
-	 * @param  string|string[] $paths
-	 * @param  string|string[] $exclude
-	 * @return static
+	 * @throws Throwable
 	 */
-	public function addFindConfig($paths, ...$exclude)
+	public function addFindConfig(array|string $paths, array|string ...$exclude): static
 	{
 		$storage = new FileStorage($this->getCacheDirectory());
 		$cache = new Cache($storage, self::CACHING);
