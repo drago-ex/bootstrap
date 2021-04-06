@@ -15,7 +15,7 @@ Basic configuration.
 [![Coverage Status](https://coveralls.io/repos/github/drago-ex/bootstrap/badge.svg?branch=master)](https://coveralls.io/github/drago-ex/bootstrap?branch=master)
 
 ## Requirements
-- PHP 7.4 or higher
+- PHP 8.0 or higher
 - composer
 
 ## Installation
