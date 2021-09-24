@@ -13,9 +13,7 @@ use Tester\Assert;
 $boot = require __DIR__ . '/../bootstrap.php';
 
 
-$configCache = function () use ($boot): ConfigCache {
-	return new ConfigCache($boot::CACHING, TEMP_DIR);
-};
+$configCache = fn(): ConfigCache => new ConfigCache($boot::CACHING, TEMP_DIR);
 
 
 test('Find the configuration file from one place', function () use ($boot, $configCache) {
