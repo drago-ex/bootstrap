@@ -2,21 +2,23 @@
 
 declare(strict_types=1);
 
-use Drago\Bootstrap\ExtraConfigurator;
-use Tester\Environment;
+if (@!include __DIR__ . '/../vendor/autoload.php') {
+	echo 'Install Nette Tester using `composer install`';
+	exit(1);
+}
 
-require __DIR__ . '/../vendor/autoload.php';
 
-Environment::setup();
+Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
 
-define('TEMP_DIR', __DIR__ . '/tmp');
-define('CONF_DIR', __DIR__ . '/file');
+
+const TEMP_DIR = __DIR__ . '/tmp';
+const CONF_DIR = __DIR__ . '/file';
 
 @mkdir(dirname(TEMP_DIR));
 @mkdir(TEMP_DIR);
 
-$boot = new ExtraConfigurator;
+$boot = new Drago\Bootstrap\ExtraConfigurator;
 $boot->setTempDirectory(TEMP_DIR);
 $boot->createRobotLoader()
 	->addDirectory(__DIR__)
@@ -26,7 +28,7 @@ $boot->createRobotLoader()
 return $boot;
 
 
-function test(Closure $function): void
+function test(string $title, Closure $function): void
 {
 	$function();
 }

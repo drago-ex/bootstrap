@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Test: Drago\Bootstrap\ExtraConfigurator
+ */
+
 declare(strict_types=1);
 
 use Nette\Application\Application;
@@ -14,7 +18,7 @@ $configCache = function () use ($boot): ConfigCache {
 };
 
 
-test(function () use ($boot, $configCache) {
+test('Find the configuration file from one place', function () use ($boot, $configCache) {
 	$boot->addFindConfig(CONF_DIR . '/conf');
 	$config = $configCache()->getCache();
 
@@ -25,7 +29,7 @@ test(function () use ($boot, $configCache) {
 });
 
 
-test(function () use ($boot, $configCache) {
+test('Find the configuration file from multiple locations', function () use ($boot, $configCache) {
 	$boot->addFindConfig([
 		CONF_DIR . '/conf',
 		CONF_DIR . '/conf.2',
@@ -41,7 +45,7 @@ test(function () use ($boot, $configCache) {
 });
 
 
-test(function () use ($boot, $configCache) {
+test('Find the configuration file and exclude which we do not want', function () use ($boot, $configCache) {
 	$boot->addFindConfig(CONF_DIR, 'conf.2');
 	$config = $configCache()->getCache();
 
@@ -53,6 +57,6 @@ test(function () use ($boot, $configCache) {
 });
 
 
-test(function () use ($boot) {
+test('Check type', function () use ($boot) {
 	Assert::type(Application::class, $boot->app());
 });
