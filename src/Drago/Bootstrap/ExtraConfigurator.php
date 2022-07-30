@@ -30,7 +30,7 @@ class ExtraConfigurator extends Configurator
 	 * Searching for configuration files.
 	 * @throws Throwable
 	 */
-	public function addFindConfig(array|string $paths, array|string $exclude): static
+	public function addFindConfig(array|string $paths, array|string ...$exclude): static
 	{
 		$storage = new FileStorage($this->getCacheDirectory());
 		$cache = new Cache($storage, self::CACHING);
