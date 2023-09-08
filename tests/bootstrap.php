@@ -12,14 +12,14 @@ Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
 
 
-const TEMP_DIR = __DIR__ . '/tmp';
-const CONF_DIR = __DIR__ . '/file';
+const TempDir = __DIR__ . '/tmp';
+const ConfDir = __DIR__ . '/file';
 
-@mkdir(dirname(TEMP_DIR));
-@mkdir(TEMP_DIR);
+@mkdir(dirname(TempDir));
+@mkdir(TempDir);
 
 $boot = new Drago\Bootstrap\ExtraConfigurator;
-$boot->setTempDirectory(TEMP_DIR);
+$boot->setTempDirectory(TempDir);
 $boot->createRobotLoader()
 	->addDirectory(__DIR__)
 	->addDirectory(__DIR__ . '/../src')

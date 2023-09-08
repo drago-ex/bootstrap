@@ -23,7 +23,7 @@ use Throwable;
 class ExtraConfigurator extends Configurator
 {
 	// Cache for found configuration files.
-	public const CACHING = 'drago.cacheConf';
+	public const Caching = 'drago.cacheConf';
 
 
 	/**
@@ -33,10 +33,10 @@ class ExtraConfigurator extends Configurator
 	public function addFindConfig(array|string $paths, array|string ...$exclude): static
 	{
 		$storage = new FileStorage($this->getCacheDirectory());
-		$cache = new Cache($storage, self::CACHING);
+		$cache = new Cache($storage, self::Caching);
 
 		// Check the stored cache.
-		if (!$cache->load(self::CACHING)) {
+		if (!$cache->load(self::Caching)) {
 			$items = [];
 			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $key => $file) {
 				$items[] = $key;
@@ -46,12 +46,12 @@ class ExtraConfigurator extends Configurator
 				$names[] = basename($row);
 			}
 			array_multisort($names, SORT_NUMERIC, $items);
-			$cache->save(self::CACHING, $items);
+			$cache->save(self::Caching, $items);
 		}
 
 		// Loading cached saved.
-		if ($cache->load(self::CACHING)) {
-			foreach ($cache->load(self::CACHING) as $row) {
+		if ($cache->load(self::Caching)) {
+			foreach ($cache->load(self::Caching) as $row) {
 				$this->addConfig($row);
 			}
 		}

@@ -13,11 +13,11 @@ use Tester\Assert;
 $boot = require __DIR__ . '/../bootstrap.php';
 
 
-$configCache = fn(): ConfigCache => new ConfigCache($boot::CACHING, TEMP_DIR);
+$configCache = fn(): ConfigCache => new ConfigCache($boot::CACHING, TempDir);
 
 
 test('Find the configuration file from one place', function () use ($boot, $configCache) {
-	$boot->addFindConfig(CONF_DIR . '/conf');
+	$boot->addFindConfig(ConfDir . '/conf');
 	$config = $configCache()->getCache();
 
 	Assert::same('conf.neon', $config[0]);
@@ -29,8 +29,8 @@ test('Find the configuration file from one place', function () use ($boot, $conf
 
 test('Find the configuration file from multiple locations', function () use ($boot, $configCache) {
 	$boot->addFindConfig([
-		CONF_DIR . '/conf',
-		CONF_DIR . '/conf.2',
+		ConfDir . '/conf',
+		ConfDir . '/conf.2',
 	]);
 
 	$config = $configCache()->getCache();
@@ -44,7 +44,7 @@ test('Find the configuration file from multiple locations', function () use ($bo
 
 
 test('Find the configuration file and exclude which we do not want', function () use ($boot, $configCache) {
-	$boot->addFindConfig(CONF_DIR, 'conf.2');
+	$boot->addFindConfig(ConfDir, 'conf.2');
 	$config = $configCache()->getCache();
 
 	Assert::same('conf.neon', $config[0]);
