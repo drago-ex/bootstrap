@@ -25,6 +25,7 @@ class ExtraConfigurator extends Configurator
 {
 	// Cache for found configuration files.
 	public const Caching = 'drago.cacheConf';
+	private bool|null $option = null;
 
 
 	/**
@@ -35,7 +36,7 @@ class ExtraConfigurator extends Configurator
 	{
 		$storage = new FileStorage($this->getCacheDirectory());
 		$cache = new Cache($storage, self::Caching);
-		if (Debugger::$productionMode === false) {
+		if (Debugger::$productionMode === $this->option) {
 			if ($cache->load(self::Caching)) {
 				$cache->remove(self::Caching);
 			}
@@ -70,6 +71,13 @@ class ExtraConfigurator extends Configurator
 			$files[] = $item->getRealPath();
 		}
 		return $files;
+	}
+
+
+	public function setOffAutoDevConf(bool $parm = false): bool|null
+	{
+		$this->option = $parm;
+		return $this->option;
 	}
 
 
