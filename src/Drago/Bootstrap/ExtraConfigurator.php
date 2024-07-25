@@ -34,7 +34,7 @@ class ExtraConfigurator extends Configurator
 	{
 		$storage = new FileStorage($this->getCacheDirectory());
 		$cache = new Cache($storage, self::Caching);
-		if (Debugger::$productionMode === false) {
+		if (Debugger::$productionMode === true) {
 			if ($cache->load(self::Caching)) {
 				$cache->remove(self::Caching);
 			}
@@ -43,11 +43,9 @@ class ExtraConfigurator extends Configurator
 				$this->addConfig($file);
 			}
 
-		} else {
-			if (!$cache->load(self::Caching)) {
-				$files = $this->finder($paths, $exclude);
-				$cache->save(self::Caching, $files);
-			}
+		} elseif (!$cache->load(self::Caching)) {
+			$files = $this->finder($paths, $exclude);
+			$cache->save(self::Caching, $files);
 		}
 
 		// Loading cached saved.
