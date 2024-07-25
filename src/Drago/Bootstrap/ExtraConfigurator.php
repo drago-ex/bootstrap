@@ -34,7 +34,7 @@ class ExtraConfigurator extends Configurator
 	{
 		$storage = new FileStorage($this->getCacheDirectory());
 		$cache = new Cache($storage, self::Caching);
-		if (Debugger::$productionMode === true) {
+		if (Debugger::$productionMode === false) {
 			if ($cache->load(self::Caching)) {
 				$cache->remove(self::Caching);
 			}
