@@ -34,25 +34,26 @@ class ExtraConfigurator extends Configurator
 	{
 		$storage = new FileStorage($this->getCacheDirectory());
 		$cache = new Cache($storage, self::Caching);
+		if (Debugger::$productionMode === false) {
+			if ($cache->load(self::Caching)) {
+				$cache->remove(self::Caching);
+			}
+			$files = $this->finder($paths, $exclude);
+			foreach ($files as $file) {
+				$this->addConfig($file);
+			}
 
-		// Check the stored cache.
-		if (!$cache->load(self::Caching)) {
-			$items = [];
-			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $key => $file) {
-				$items[] = $key;
+		} else {
+			if (!$cache->load(self::Caching)) {
+				$files = $this->finder($paths, $exclude);
+				$cache->save(self::Caching, $files);
 			}
-			$names = [];
-			foreach ($items as $row) {
-				$names[] = basename($row);
-			}
-			array_multisort($names, SORT_NUMERIC, $items);
-			$cache->save(self::Caching, $items);
 		}
 
 		// Loading cached saved.
 		if ($cache->load(self::Caching)) {
-			foreach ($cache->load(self::Caching) as $row) {
-				$this->addConfig($row);
+			foreach ($cache->load(self::Caching) as $item) {
+				$this->addConfig($item);
 			}
 		}
 		return $this;
