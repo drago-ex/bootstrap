@@ -15,7 +15,6 @@ use Nette\Caching\Storages\FileStorage;
 use Nette\Configurator;
 use Nette\Utils\Finder;
 use Throwable;
-use Tracy\Debugger;
 
 
 /**
@@ -25,7 +24,6 @@ class ExtraConfigurator extends Configurator
 {
 	// Cache for found configuration files.
 	public const Caching = 'drago.cacheConf';
-	private bool|null $option = null;
 
 
 	/**
@@ -36,47 +34,28 @@ class ExtraConfigurator extends Configurator
 	{
 		$storage = new FileStorage($this->getCacheDirectory());
 		$cache = new Cache($storage, self::Caching);
-		if (Debugger::$productionMode === $this->option) {
-			if ($cache->load(self::Caching)) {
-				$cache->remove(self::Caching);
+
+		// Check the stored cache.
+		if (!$cache->load(self::Caching)) {
+			$items = [];
+			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $key => $file) {
+				$items[] = $key;
 			}
-			$items = $this->finder($paths, $exclude);
-			foreach ($items as $item) {
-				$this->addConfig($item);
+			$names = [];
+			foreach ($items as $row) {
+				$names[] = basename($row);
 			}
-		} elseif (!$cache->load(self::Caching)) {
-			$items = $this->finder($paths, $exclude);
+			array_multisort($names, SORT_NUMERIC, $items);
 			$cache->save(self::Caching, $items);
 		}
 
 		// Loading cached saved.
 		if ($cache->load(self::Caching)) {
-			foreach ($cache->load(self::Caching) as $item) {
-				$this->addConfig($item);
+			foreach ($cache->load(self::Caching) as $row) {
+				$this->addConfig($row);
 			}
 		}
 		return $this;
-	}
-
-
-	private function finder(array|string $paths, array|string ...$exclude): array
-	{
-		$items = Finder::findFiles('*.neon')
-			->from($paths)
-			->exclude(...$exclude);
-
-		$files = [];
-		foreach ($items as $item) {
-			$files[] = $item->getRealPath();
-		}
-		return $files;
-	}
-
-
-	public function setOffAutoDevConf(bool $parm = false): bool|null
-	{
-		$this->option = $parm;
-		return $this->option;
 	}
 
 
