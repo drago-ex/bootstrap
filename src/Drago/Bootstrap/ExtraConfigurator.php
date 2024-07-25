@@ -59,6 +59,20 @@ class ExtraConfigurator extends Configurator
 	}
 
 
+	private function finder(array|string $paths, array|string ...$exclude): array
+	{
+		$items = Finder::findFiles('*.neon')
+			->from($paths)
+			->exclude(...$exclude);
+		
+		$files = [];
+		foreach ($items as $item) {
+			$files[] = $item->getRealPath();
+		}
+		return $files;
+	}
+
+
 	/**
 	 * Front Controller.
 	 */
