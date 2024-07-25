@@ -39,14 +39,14 @@ class ExtraConfigurator extends Configurator
 			if ($cache->load(self::Caching)) {
 				$cache->remove(self::Caching);
 			}
-			$files = $this->finder($paths, $exclude);
-			foreach ($files as $file) {
-				$this->addConfig($file);
+			$items = $this->finder($paths, $exclude);
+			foreach ($items as $item) {
+				$this->addConfig($item);
 			}
 
 		} elseif (!$cache->load(self::Caching)) {
-			$files = $this->finder($paths, $exclude);
-			$cache->save(self::Caching, $files);
+			$items = $this->finder($paths, $exclude);
+			$cache->save(self::Caching, $items);
 		}
 
 		// Loading cached saved.
