@@ -44,7 +44,6 @@ class ExtraConfigurator extends Configurator
 			foreach ($items as $item) {
 				$this->addConfig($item);
 			}
-
 		} elseif (!$cache->load(self::Caching)) {
 			$items = $this->finder($paths, $exclude);
 			$cache->save(self::Caching, $items);
@@ -65,7 +64,7 @@ class ExtraConfigurator extends Configurator
 		$items = Finder::findFiles('*.neon')
 			->from($paths)
 			->exclude(...$exclude);
-		
+
 		$files = [];
 		foreach ($items as $item) {
 			$files[] = $item->getRealPath();
