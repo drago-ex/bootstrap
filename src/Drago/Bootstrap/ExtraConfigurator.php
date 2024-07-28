@@ -15,6 +15,7 @@ use Nette\Caching\Storages\FileStorage;
 use Nette\Configurator;
 use Nette\Utils\Finder;
 use Throwable;
+use Tracy\Debugger;
 
 
 /**
