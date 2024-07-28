@@ -49,9 +49,9 @@ class ExtraConfigurator extends Configurator
 			foreach ($cache->load(self::Caching) as $row) {
 				$this->addConfig($row);
 			}
-            if (Debugger::$productionMode === false) {
-                $cache->remove(self::Caching);
-            }
+			if (Debugger::$productionMode === false) {
+				$cache->remove(self::Caching);
+			}
 		}
 		return $this;
 	}
