@@ -39,7 +39,7 @@ class ExtraConfigurator extends Configurator
 		// Check the stored cache.
 		if (!$cache->load(self::Caching)) {
 			$items = [];
-			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $file) {
+			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude)->sortByName() as $file) {
 				$items[] = $file->getRealPath();
 			}
 			$cache->save(self::Caching, $items);
