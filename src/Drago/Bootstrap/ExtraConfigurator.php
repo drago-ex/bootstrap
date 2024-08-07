@@ -42,6 +42,11 @@ class ExtraConfigurator extends Configurator
 			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude)->sortByName() as $file) {
 				$items[] = $file->getRealPath();
 			}
+			$names = [];
+			foreach ($items as $row) {
+				$names[] = basename($row);
+			}
+			array_multisort($names, SORT_NUMERIC, $items);
 			$cache->save(self::Caching, $items);
 		}
 
