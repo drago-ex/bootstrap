@@ -40,7 +40,7 @@ class ExtraConfigurator extends Configurator
 		if (!$cache->load(self::Caching)) {
 
 			// Find config neon.
-			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude)->sortByName() as $file) {
+			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $file) {
 				$items[] = $file->getRealPath();
 				$names[] = $file->getBasename();
 			}
