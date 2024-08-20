@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace Drago\Bootstrap;
 
 use Nette\Application\Application;
+use Nette\Bootstrap\Configurator;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
-use Nette\Configurator;
 use Nette\Utils\Finder;
 use Throwable;
 use Tracy\Debugger;
@@ -38,13 +38,11 @@ class ExtraConfigurator extends Configurator
 
 		// Check the stored cache.
 		if (!$cache->load(self::Caching)) {
-			$items = [];
+
+			// Find config neon.
 			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude)->sortByName() as $file) {
 				$items[] = $file->getRealPath();
-			}
-			$names = [];
-			foreach ($items as $row) {
-				$names[] = basename($row);
+				$names[] = $file->getBasename();
 			}
 			array_multisort($names, SORT_NUMERIC, $items);
 			$cache->save(self::Caching, $items);
