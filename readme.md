@@ -23,8 +23,9 @@ composer require nette/bootstrap nette/caching tracy/tracy
 ## Basic Usage
 ### Adding Configuration Files
 To load configuration files from a specified directory:
+
 ```php
-use Drago\Bootstrap\ExtraConfigurator;
+use Drago\Bootstrap\Drago\Bootstrap\ExtraConfigurator;
 
 $configurator = new ExtraConfigurator();
 

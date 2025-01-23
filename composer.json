@@ -22,9 +22,7 @@
 		"phpstan/phpstan-nette": "^1.2.9"
 	},
 	"autoload": {
-		"psr-4": {
-			"Drago\\Bootstrap\\": "src/"
-		}
+		"classmap": ["src/"]
 	},
 	"scripts": {
 		"phpstan": "phpstan analyse --level 5 --configuration tests/phpstan.neon src",
