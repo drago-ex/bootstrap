@@ -1,6 +1,6 @@
 ## Drago\Bootstrap\ExtraConfigurator
-`ExtraConfigurator` is a class built on top of Nette Framework's `Configurator` to simplify 
-loading and caching of configuration files in `.neon` format. It automatically handles 
+`ExtraConfigurator` is a class built on top of Nette Framework's `Configurator` to simplify
+loading and caching of configuration files in `.neon` format. It automatically handles
 caching in development and production environments.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/drago-ex/bootstrap/master/license.md)
@@ -53,7 +53,7 @@ $configurator->addFindConfig(__DIR__ . '/config', 'exclude');
 This will load all `.neon` files from the `config` directory except `exclude.neon`.
 
 ## Cache Management
-In development mode, the cache is invalidated after each request to allow immediate updates. 
+In development mode, the cache is invalidated after each request to allow immediate updates.
 In production mode, the cache is stored without expiration unless the configuration files are modified.
 ```php
 use Tracy\Debugger;

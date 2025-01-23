@@ -6,7 +6,6 @@
 
 declare(strict_types=1);
 
-use Nette\Application\Application;
 use Tester\Assert;
 
 /** @var $boot Drago\Bootstrap\ExtraConfigurator */
