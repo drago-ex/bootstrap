@@ -33,7 +33,6 @@ $configurator->addFindConfig(__DIR__ . '/config');
 
 // Access the application (you can configure services, routing, etc.)
 $app = $configurator->app();
-
 ```
 
 ## Adding Multiple Directories
