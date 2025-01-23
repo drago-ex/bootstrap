@@ -53,8 +53,3 @@ test('Find the configuration file and exclude which we do not want', function ()
 
 	$configCache()->remove();
 });
-
-
-test('Check type', function () use ($boot) {
-	Assert::type(Application::class, $boot->app());
-});

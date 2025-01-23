@@ -1,5 +1,7 @@
-## Drago Bootstrap
-Basic configuration.
+## Drago\Bootstrap\ExtraConfigurator
+`ExtraConfigurator` is a class built on top of Nette Framework's `Configurator` to simplify 
+loading and caching of configuration files in `.neon` format. It automatically handles 
+caching in development and production environments.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/drago-ex/bootstrap/master/license.md)
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Fbootstrap.svg)](https://badge.fury.io/ph/drago-ex%2Fbootstrap)
@@ -13,34 +15,52 @@ Basic configuration.
 - composer
 
 ## Installation
+Make sure you have Nette Framework installed in your project.
 ```
-composer require drago-ex/bootstrap
+composer require nette/bootstrap nette/caching tracy/tracy
 ```
 
-## Use
+## Basic Usage
+### Adding Configuration Files
+To load configuration files from a specified directory:
 ```php
-class Bootstrap
-{
-	public static function boot(): ExtraConfigurator
-	{
-		$app = new ExtraConfigurator;
+use Drago\Bootstrap\ExtraConfigurator;
 
-		// Finder configuration files.
-		$app->addFindConfig(__DIR__ . '/path/to/dir');
+$configurator = new ExtraConfigurator();
 
-		return $app;
-	}
-}
+// Add configuration files from the 'config' directory
+$configurator->addFindConfig(__DIR__ . '/config');
+
+// Access the application (you can configure services, routing, etc.)
+$app = $configurator->app();
+
 ```
 
-Multiple search.
+## Adding Multiple Directories
+You can also provide multiple directories for configuration files:
 ```php
-$app->addFindConfig([
-	__DIR__ . '/path/to/dir',
-	__DIR__ . '/path/to/dir'
+$configurator->addFindConfig([
+    __DIR__ . '/config/first',
+    __DIR__ . '/config/second'
 ]);
 ```
 
-Search exclusion.
+## Excluding Files or Directories
+You can exclude certain files or directories from being loaded:
 ```php
-$app->addFindConfig(__DIR__ . '/path/to/dir', 'exclude');
+$configurator->addFindConfig(__DIR__ . '/config', 'exclude');
+```
+This will load all `.neon` files from the `config` directory except `exclude.neon`.
+
+## Cache Management
+In development mode, the cache is invalidated after each request to allow immediate updates. 
+In production mode, the cache is stored without expiration unless the configuration files are modified.
+```php
+use Tracy\Debugger;
+
+// Enable production mode to use persistent cache
+Debugger::$productionMode = true;
+
+// Cache is automatically handled and invalidated only when necessary
+$configurator->addFindConfig(__DIR__ . '/config');
+```
