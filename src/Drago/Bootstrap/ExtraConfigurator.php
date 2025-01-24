@@ -25,7 +25,7 @@ use Tracy\Debugger;
  */
 class ExtraConfigurator extends Configurator
 {
-	public const Caching = 'drago.cacheConf';
+	public const string Caching = 'drago.cacheConf';
 
 
 	/**

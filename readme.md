@@ -11,7 +11,7 @@ caching in development and production environments.
 [![Coverage Status](https://coveralls.io/repos/github/drago-ex/bootstrap/badge.svg?branch=master)](https://coveralls.io/github/drago-ex/bootstrap?branch=master)
 
 ## Requirements
-- PHP 8.1 or higher
+- PHP 8.3 or higher
 - composer
 
 ## Installation
