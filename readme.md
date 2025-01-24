@@ -17,7 +17,7 @@ caching in development and production environments.
 ## Installation
 Make sure you have Nette Framework installed in your project.
 ```
-composer require nette/bootstrap nette/caching tracy/tracy
+composer require drago-ex/bootstrap
 ```
 
 ## Basic Usage
