@@ -12,10 +12,12 @@ jobs:
               with:
                   php-version: 8.4
                   coverage: none
-
+            - name: Install Composer
+              run: curl -sS https://getcomposer.org/installer | php
+            - name: Move Composer
+              run: mv composer.phar /usr/local/bin/composer
             - run: composer create-project nette/code-checker temp/code-checker ^3 --no-progress
             - run: php temp/code-checker/code-checker --strict-types --no-progress
-
 
     nette_cs:
         name: Nette Coding Standard
@@ -26,6 +28,9 @@ jobs:
               with:
                   php-version: 8.4
                   coverage: none
-
+            - name: Install Composer
+              run: curl -sS https://getcomposer.org/installer | php
+            - name: Move Composer
+              run: mv composer.phar /usr/local/bin/composer
             - run: composer create-project nette/coding-standard temp/coding-standard ^3 --no-progress
             - run: php temp/coding-standard/ecs check
