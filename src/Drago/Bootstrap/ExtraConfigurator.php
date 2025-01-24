@@ -27,7 +27,6 @@ class ExtraConfigurator extends Configurator
 {
 	public const string Caching = 'drago.cacheConf';
 
-
 	/**
 	 * Searches for configuration files (.neon) in the given directories and stores them in cache.
 	 * If the cache is already available, the cached configuration files are loaded.
@@ -56,7 +55,7 @@ class ExtraConfigurator extends Configurator
 			}
 
 			// Sort the found items based on the file names (numeric sort order)
-			array_multisort($names, SORT_NUMERIC, $items);
+			array_multisort($items, SORT_NUMERIC, $names);
 
 			// Save the list of found items to the cache with no expiration
 			$cache->save(self::Caching, $items, [
