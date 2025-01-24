@@ -1,4 +1,4 @@
-## Drago\Bootstrap\ExtraConfigurator
+## Drago\Bootstrap
 `ExtraConfigurator` is a class built on top of Nette Framework's `Configurator` to simplify
 loading and caching of configuration files in `.neon` format. It automatically handles
 caching in development and production environments.
