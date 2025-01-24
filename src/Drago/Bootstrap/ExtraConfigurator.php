@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Drago Extension
- * Package built on Nette Framework
- */
-
 declare(strict_types=1);
 
 namespace Drago\Bootstrap;
@@ -25,7 +20,7 @@ use Tracy\Debugger;
  */
 class ExtraConfigurator extends Configurator
 {
-	public const string Caching = 'drago.cacheConf';
+	public const Caching = 'drago.cacheConf';
 
 
 	/**
@@ -56,7 +51,7 @@ class ExtraConfigurator extends Configurator
 			}
 
 			// Sort the found items based on the file names (numeric sort order)
-			array_multisort($items, SORT_NUMERIC, $names);
+			array_multisort($names, SORT_NUMERIC, $items);
 
 			// Save the list of found items to the cache with no expiration
 			$cache->save(self::Caching, $items, [
