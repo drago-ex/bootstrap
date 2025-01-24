@@ -1,7 +1,7 @@
 {
 	"name": "drago-ex/bootstrap",
 	"type": "library",
-	"description": "The `ExtraConfigurator` class extends the basic configuration functionality for the Nette Framework by adding the ability to search for `.neon` configuration files across directories and cache the results. It supports both development and production environments with automatic cache invalidation during development.",
+	"description": "The `ExtraConfigurator` class extends Nette's configuration by searching for `.neon` files across directories and caching the results, with automatic cache invalidation in development.",
 	"license": ["MIT"],
 	"authors": [
 		{
