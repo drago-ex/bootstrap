@@ -27,6 +27,7 @@ class ExtraConfigurator extends Configurator
 {
 	public const string Caching = 'drago.cacheConf';
 
+
 	/**
 	 * Searches for configuration files (.neon) in the given directories and stores them in cache.
 	 * If the cache is already available, the cached configuration files are loaded.
