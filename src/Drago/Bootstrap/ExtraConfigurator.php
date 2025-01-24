@@ -56,7 +56,7 @@ class ExtraConfigurator extends Configurator
 			}
 
 			// Sort the found items based on the file names (numeric sort order)
-			array_multisort($items, SORT_NUMERIC, $names);
+			array_multisort($names, SORT_NUMERIC, $items);
 
 			// Save the list of found items to the cache with no expiration
 			$cache->save(self::Caching, $items, [
