@@ -40,42 +40,58 @@ class ExtraConfigurator extends Configurator
 	 */
 	public function addFindConfig(array|string $paths, array|string ...$exclude): static
 	{
-		// Set up the file storage and cache object
+		// Set up the file storage and cache object.
 		$storage = new FileStorage($this->getCacheDirectory());
-		$cache = new Cache($storage, self::Caching);
+		$cache = new Cache($storage, 'config.search');
 
-		// Check if cache already exists and is still valid
-		if (!$cache->load(self::Caching)) {
-			$items = [];
-			$names = [];
+		// Load the cache data if it exists (used in both production and development modes).
+		$cachedItems = $cache->load(self::Caching);
 
-			// Search for all .neon configuration files in the specified directories
-			foreach (Finder::findFiles('*.neon')->from($paths)->exclude($exclude) as $file) {
-				$items[] = $file->getRealPath();  // Full path of the file
-				$names[] = $file->getBasename();  // Basename of the file for sorting
+		// If in development (debug) mode, invalidate the cache to allow updates.
+		if (Debugger::$productionMode === false) {
+			$items = $this->finder($paths, ...$exclude);
+			foreach ($items as $item) {
+				$this->addConfig($item);
 			}
 
-			// Sort the found items based on the file names (numeric sort order)
-			array_multisort($names, SORT_NUMERIC, $items);
+			// Remove the cache to ensure it's rebuilt on the next request.
+			$cache->remove(self::Caching);
 
-			// Save the list of found items to the cache with no expiration
-			$cache->save(self::Caching, $items, [
-				Cache::All => true,  // Mark cache as non-expiring
-			]);
-		}
-
-		// Load and apply the cached configuration files if available
-		if ($cachedItems = $cache->load(self::Caching)) {
-			foreach ($cachedItems as $row) {
-				$this->addConfig($row);  // Add the cached configuration file
+		} else {
+			if (!$cachedItems) {
+				$items = $this->finder($paths, ...$exclude);
+				$cache->save(self::Caching, $items, [
+					Cache::All => true,
+				]);
+				$cachedItems = $items;
 			}
 
-			// If in development (debug) mode, invalidate the cache to allow updates
-			if (Debugger::$productionMode === false) {
-				$cache->remove(self::Caching);  // Remove the cache so it will be recreated next time
+			// Apply the cached configuration files.
+			foreach ($cachedItems as $item) {
+				$this->addConfig($item);
 			}
 		}
 
 		return $this;
+	}
+
+
+	private function finder(array|string $paths, array|string ...$exclude): array
+	{
+		// Initialize Finder and apply filtering.
+		$finder = Finder::findFiles('*.neon')
+			->from($paths)
+			->exclude($exclude)
+			->sortBy(function ($file) {
+				return $file->getBasename();
+			});
+
+		// Collect all files' real paths.
+		$items = [];
+		foreach ($finder as $file) {
+			$items[] = $file->getRealPath();
+		}
+
+		return $items;
 	}
 }
