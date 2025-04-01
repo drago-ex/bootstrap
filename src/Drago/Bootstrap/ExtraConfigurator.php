@@ -78,20 +78,19 @@ class ExtraConfigurator extends Configurator
 
 	private function finder(array|string $paths, array|string ...$exclude): array
 	{
-		// Initialize Finder and apply filtering.
 		$finder = Finder::findFiles('*.neon')
 			->from($paths)
-			->exclude($exclude)
-			->sortBy(function ($file) {
-				return $file->getBasename();
-			});
+			->exclude($exclude);
 
-		// Collect all files' real paths.
-		$items = [];
-		foreach ($finder as $file) {
-			$items[] = $file->getRealPath();
-		}
+		// Collect file objects directly.
+		$items = iterator_to_array($finder);
 
-		return $items;
+		// Sort files by the numeric value of the basename (file name).
+		usort($items, function ($file1, $file2) {
+			return (int) $file1->getBasename() - (int) $file2->getBasename();
+		});
+
+		// Extract and return the real paths of the sorted files.
+		return array_map(fn($file) => $file->getRealPath(), $items);
 	}
 }
