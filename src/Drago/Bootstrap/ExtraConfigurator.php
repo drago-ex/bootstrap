@@ -87,7 +87,7 @@ class ExtraConfigurator extends Configurator
 
 		foreach ($finder as $file) {
 			$items[] = $file->getRealPath();
-			$names[] = strtolower($file->getBasename());
+			$names[] = $file->getBasename();
 		}
 
 		// Sort the found items based on the file names (numeric sort order).
