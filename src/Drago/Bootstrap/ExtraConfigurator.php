@@ -12,7 +12,6 @@ namespace Drago\Bootstrap;
 use Nette\Bootstrap\Configurator;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
-use Nette\Utils\FileInfo;
 use Nette\Utils\Finder;
 use Throwable;
 use Tracy\Debugger;
