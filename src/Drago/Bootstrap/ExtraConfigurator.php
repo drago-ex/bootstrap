@@ -83,13 +83,17 @@ class ExtraConfigurator extends Configurator
 			->from($paths)
 			->exclude($exclude);
 
-		// Collect file objects directly.
-		$items = iterator_to_array($finder);
+		$items = [];
+		$names = [];
 
-		// Sort files by the numeric value of the basename (file name).
-		usort($items, fn(FileInfo $file1, FileInfo $file2) => (int) $file1->getBasename() - (int) $file2->getBasename());
+		foreach ($finder as $file) {
+			$items[] = $file->getRealPath();
+			$names[] = strtolower($file->getBasename());
+		}
 
-		// Extract and return the real paths of the sorted files.
-		return array_map(fn($file) => $file->getRealPath(), $items);
+		// Sort the found items based on the file names (numeric sort order).
+		array_multisort($names, SORT_NUMERIC, $items);
+
+		return $items;
 	}
 }
