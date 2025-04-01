@@ -12,6 +12,7 @@ namespace Drago\Bootstrap;
 use Nette\Bootstrap\Configurator;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
+use Nette\Utils\FileInfo;
 use Nette\Utils\Finder;
 use Throwable;
 use Tracy\Debugger;
@@ -86,7 +87,7 @@ class ExtraConfigurator extends Configurator
 		$items = iterator_to_array($finder);
 
 		// Sort files by the numeric value of the basename (file name).
-		usort($items, fn($file1, $file2) => (int) $file1->getBasename() - (int) $file2->getBasename());
+		usort($items, fn(FileInfo $file1, FileInfo $file2) => (int) $file1->getBasename() - (int) $file2->getBasename());
 
 		// Extract and return the real paths of the sorted files.
 		return array_map(fn($file) => $file->getRealPath(), $items);
