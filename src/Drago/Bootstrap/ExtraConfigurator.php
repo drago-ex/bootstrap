@@ -25,7 +25,7 @@ use Tracy\Debugger;
  */
 class ExtraConfigurator extends Configurator
 {
-	public const string Caching = 'drago.cacheConf';
+	public const string Caching = 'config.search';
 
 
 	/**
@@ -42,7 +42,7 @@ class ExtraConfigurator extends Configurator
 	{
 		// Set up the file storage and cache object.
 		$storage = new FileStorage($this->getCacheDirectory());
-		$cache = new Cache($storage, 'config.search');
+		$cache = new Cache($storage, self::Caching);
 
 		// Load the cache data if it exists (used in both production and development modes).
 		$cachedItems = $cache->load(self::Caching);
