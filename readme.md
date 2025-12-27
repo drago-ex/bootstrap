@@ -11,8 +11,9 @@ caching in development and production environments.
 [![Coverage Status](https://coveralls.io/repos/github/drago-ex/bootstrap/badge.svg?branch=master)](https://coveralls.io/github/drago-ex/bootstrap?branch=master)
 
 ## Requirements
-- PHP 8.3 or higher
-- composer
+- PHP >= 8.3
+- Nette Framework
+- Composer
 
 ## Installation
 Make sure you have Nette Framework installed in your project.
@@ -64,3 +65,4 @@ Debugger::$productionMode = true;
 // Cache is automatically handled and invalidated only when necessary
 $configurator->addFindConfig(__DIR__ . '/config');
 ```
+
