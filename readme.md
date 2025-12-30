@@ -65,5 +65,3 @@ Debugger::$productionMode = true;
 // Cache is automatically handled and invalidated only when necessary
 $configurator->addFindConfig(__DIR__ . '/config');
 ```
-
-
