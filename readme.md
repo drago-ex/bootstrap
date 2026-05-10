@@ -1,13 +1,13 @@
-## Drago Bootstrap
+# Drago Bootstrap
+
 `ExtraConfigurator` is a class built on top of Nette Framework's `Configurator` to simplify
 loading and caching of configuration files in `.neon` format. It automatically handles
 caching in development and production environments.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/drago-ex/bootstrap/master/license)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/drago-ex/bootstrap/blob/master/license)
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Fbootstrap.svg)](https://badge.fury.io/ph/drago-ex%2Fbootstrap)
 [![Tests](https://github.com/drago-ex/bootstrap/actions/workflows/tests.yml/badge.svg)](https://github.com/drago-ex/bootstrap/actions/workflows/tests.yml)
 [![Coding Style](https://github.com/drago-ex/bootstrap/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/bootstrap/actions/workflows/coding-style.yml)
-[![CodeFactor](https://www.codefactor.io/repository/github/drago-ex/bootstrap/badge)](https://www.codefactor.io/repository/github/drago-ex/bootstrap)
 [![Coverage Status](https://coveralls.io/repos/github/drago-ex/bootstrap/badge.svg?branch=master)](https://coveralls.io/github/drago-ex/bootstrap?branch=master)
 
 ## Requirements
@@ -21,7 +21,7 @@ Make sure you have Nette Framework installed in your project.
 composer require drago-ex/bootstrap
 ```
 
-## Basic Usage
+## Examples
 ### Adding Configuration Files
 To load configuration files from a specified directory:
 
