@@ -12,44 +12,31 @@ use Throwable;
 use Tracy\Debugger;
 
 
-/**
- * The ExtraConfigurator class manages loading and caching configuration files (.neon).
- * It automatically caches configuration files in development mode and ensures efficient cache handling in production.
- * The cache is invalidated on each request in development, while in production it is cached without expiration,
- * improving performance unless configuration files are modified.
- */
+/** Extra configurator for managing loading and caching configuration files. */
 class ExtraConfigurator extends Configurator
 {
 	public const string Caching = 'config.search';
 
 
 	/**
-	 * Searches for configuration files (.neon) in the given directories and stores them in cache.
-	 * If the cache is already available, the cached configuration files are loaded.
-	 * In development mode, the cache is invalidated on each request to allow immediate updates.
-	 *
+	 * Searches for configuration files and stores them in cache.
 	 * @param string|list<string> $paths
-	 * @param string|list<string> $exclude
+	 * @param string|list<string> ...$exclude
 	 * @throws Throwable
 	 */
 	public function addFindConfig(array|string $paths, array|string ...$exclude): static
 	{
-		// Set up the file storage and cache object.
-		$storage = new FileStorage($this->getCacheDirectory());
+		$storage = new FileStorage((string) $this->getCacheDirectory());
 		$cache = new Cache($storage, self::Caching);
 
-		// Load the cache data if it exists (used in both production and development modes).
 		/** @var list<string>|null $cachedItems */
 		$cachedItems = $cache->load(self::Caching);
 
-		// If in development (debug) mode, invalidate the cache to allow updates.
 		if (Debugger::$productionMode === false) {
 			$items = $this->finder($paths, ...$exclude);
 			foreach ($items as $item) {
 				$this->addConfig($item);
 			}
-
-			// Remove the cache to ensure it's rebuilt on the next request.
 			$cache->remove(self::Caching);
 
 		} else {
@@ -61,7 +48,6 @@ class ExtraConfigurator extends Configurator
 				$cachedItems = $items;
 			}
 
-			// Apply the cached configuration files.
 			foreach ($cachedItems as $item) {
 				$this->addConfig($item);
 			}
@@ -73,7 +59,7 @@ class ExtraConfigurator extends Configurator
 
 	/**
 	 * @param string|list<string> $paths
-	 * @param string|list<string> $exclude
+	 * @param string|list<string> ...$exclude
 	 * @return list<string>
 	 */
 	private function finder(array|string $paths, array|string ...$exclude): array
@@ -96,9 +82,7 @@ class ExtraConfigurator extends Configurator
 			}
 		}
 
-		// Sort the found items based on the file names (numeric sort order).
 		array_multisort($names, SORT_NUMERIC, $items);
-
 		return $items;
 	}
 }
