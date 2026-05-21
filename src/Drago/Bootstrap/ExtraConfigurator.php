@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Drago Extension
- * Package built on Nette Framework
- */
-
 declare(strict_types=1);
 
 namespace Drago\Bootstrap;
@@ -33,9 +28,8 @@ class ExtraConfigurator extends Configurator
 	 * If the cache is already available, the cached configuration files are loaded.
 	 * In development mode, the cache is invalidated on each request to allow immediate updates.
 	 *
-	 * @param array|string $paths Directories to search for configuration files
-	 * @param array|string ...$exclude Directories or files to exclude from the search
-	 * @return static
+	 * @param string|list<string> $paths
+	 * @param string|list<string> $exclude
 	 * @throws Throwable
 	 */
 	public function addFindConfig(array|string $paths, array|string ...$exclude): static
@@ -45,6 +39,7 @@ class ExtraConfigurator extends Configurator
 		$cache = new Cache($storage, self::Caching);
 
 		// Load the cache data if it exists (used in both production and development modes).
+		/** @var list<string>|null $cachedItems */
 		$cachedItems = $cache->load(self::Caching);
 
 		// If in development (debug) mode, invalidate the cache to allow updates.
@@ -76,18 +71,29 @@ class ExtraConfigurator extends Configurator
 	}
 
 
+	/**
+	 * @param string|list<string> $paths
+	 * @param string|list<string> $exclude
+	 * @return list<string>
+	 */
 	private function finder(array|string $paths, array|string ...$exclude): array
 	{
 		$finder = Finder::findFiles('*.neon')
-			->from($paths)
-			->exclude($exclude);
+			->from($paths);
+
+		foreach ($exclude as $item) {
+			$finder->exclude($item);
+		}
 
 		$items = [];
 		$names = [];
 
 		foreach ($finder as $file) {
-			$items[] = $file->getRealPath();
-			$names[] = $file->getBasename();
+			$path = $file->getRealPath();
+			if (is_string($path)) {
+				$items[] = $path;
+				$names[] = $file->getBasename();
+			}
 		}
 
 		// Sort the found items based on the file names (numeric sort order).

@@ -26,12 +26,17 @@ class ConfigCache
 	}
 
 
+	/**
+	 * @throws Throwable
+	 */
 	public function getCache(): array
 	{
 		$storage = $this->storage();
+
+		/** @var list<string>|null $load */
 		$load = $storage->load($this->key);
 		$configs = [];
-		if ($load) {
+		if (is_iterable($load)) {
 			foreach ($load as $row) {
 				$configs[] = basename($row);
 			}
