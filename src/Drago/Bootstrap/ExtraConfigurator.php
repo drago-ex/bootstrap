@@ -21,7 +21,7 @@ class ExtraConfigurator extends Configurator
 	/**
 	 * Searches for configuration files and stores them in cache.
 	 * @param string|list<string> $paths
-	 * @param string|list<string> ...$exclude
+	 * @param string|list<string> $exclude
 	 * @throws Throwable
 	 */
 	public function addFindConfig(array|string $paths, array|string ...$exclude): static
@@ -59,7 +59,7 @@ class ExtraConfigurator extends Configurator
 
 	/**
 	 * @param string|list<string> $paths
-	 * @param string|list<string> ...$exclude
+	 * @param string|list<string> $exclude
 	 * @return list<string>
 	 */
 	private function finder(array|string $paths, array|string ...$exclude): array
