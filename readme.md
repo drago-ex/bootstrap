@@ -25,7 +25,7 @@ composer require drago-ex/bootstrap
 To load configuration files from a specified directory:
 
 ```php
-use Drago\Bootstrap\Drago\Bootstrap\ExtraConfigurator;
+use Drago\Bootstrap\ExtraConfigurator;
 
 $configurator = new ExtraConfigurator();
 
