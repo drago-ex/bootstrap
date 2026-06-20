@@ -33,7 +33,7 @@ class ConfigCache
 	{
 		$storage = $this->storage();
 
-		/** @var list<string>|null $load */
+		/** @temp list<string>|null $load */
 		$load = $storage->load($this->key);
 		$configs = [];
 		if (is_iterable($load)) {
