@@ -29,7 +29,7 @@ class ExtraConfigurator extends Configurator
 		$storage = new FileStorage((string) $this->getCacheDirectory());
 		$cache = new Cache($storage, self::Caching);
 
-		/** @temp list<string>|null $cachedItems */
+		/** @var list<string>|null $cachedItems */
 		$cachedItems = $cache->load(self::Caching);
 
 		if (Debugger::$productionMode === false) {
