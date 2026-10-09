@@ -10,18 +10,22 @@ caching in development and production environments.
 [![Coding Style](https://github.com/drago-ex/bootstrap/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/bootstrap/actions/workflows/coding-style.yml)
 
 ## Requirements
+
 - PHP >= 8.3
 - Nette Framework
 - Composer
 
 ## Installation
+
 Make sure you have Nette Framework installed in your project.
 ```
 composer require drago-ex/bootstrap
 ```
 
 ## Examples
+
 ### Adding Configuration Files
+
 To load configuration files from a specified directory:
 
 ```php
@@ -37,6 +41,7 @@ $app = $configurator->app();
 ```
 
 ## Adding Multiple Directories
+
 You can also provide multiple directories for configuration files:
 ```php
 $configurator->addFindConfig([
@@ -46,6 +51,7 @@ $configurator->addFindConfig([
 ```
 
 ## Excluding Files or Directories
+
 You can exclude certain files or directories from being loaded:
 ```php
 $configurator->addFindConfig(__DIR__ . '/config', 'exclude');
@@ -53,6 +59,7 @@ $configurator->addFindConfig(__DIR__ . '/config', 'exclude');
 This will load all `.neon` files from the `config` directory except `exclude.neon`.
 
 ## Cache Management
+
 In development mode, the cache is invalidated after each request to allow immediate updates.
 In production mode, the cache is stored without expiration unless the configuration files are modified.
 ```php
