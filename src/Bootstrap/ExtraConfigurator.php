@@ -17,6 +17,17 @@ class ExtraConfigurator extends Configurator
 {
 	public const string Caching = 'config.search';
 
+	private ?ConfigPanel $panel = null;
+
+
+	/** Adds a configuration file or array and records it in the Tracy panel. */
+	public function addConfig(array|string $config): static
+	{
+		parent::addConfig($config);
+		$this->panel()?->addConfig(is_string($config) ? $config : null, ConfigPanel::Manual);
+		return $this;
+	}
+
 
 	/**
 	 * Searches for configuration files and stores them in cache.
@@ -33,9 +44,17 @@ class ExtraConfigurator extends Configurator
 		$cachedItems = $cache->load(self::Caching);
 
 		if (Debugger::$productionMode === false) {
+			$start = hrtime(true);
 			$items = $this->finder($paths, ...$exclude);
+			$this->panel()?->addScan(
+				array_values((array) $paths),
+				array_merge(...array_map(fn($e) => array_values((array) $e), $exclude)),
+				count($items),
+				(hrtime(true) - $start) / 1e6,
+			);
+
 			foreach ($items as $item) {
-				$this->addConfig($item);
+				$this->addFound($item);
 			}
 			$cache->remove(self::Caching);
 
@@ -49,11 +68,33 @@ class ExtraConfigurator extends Configurator
 			}
 
 			foreach ($cachedItems as $item) {
-				$this->addConfig($item);
+				$this->addFound($item);
 			}
 		}
 
 		return $this;
+	}
+
+
+	private function addFound(string $file): void
+	{
+		parent::addConfig($file);
+		$this->panel()?->addConfig($file, ConfigPanel::Found);
+	}
+
+
+	/** Registers the panel lazily, in development mode only. */
+	private function panel(): ?ConfigPanel
+	{
+		if (Debugger::$productionMode !== false) {
+			return null;
+		}
+
+		if ($this->panel === null) {
+			$this->panel = new ConfigPanel;
+			Debugger::getBar()->addPanel($this->panel, 'drago.config');
+		}
+		return $this->panel;
 	}
 
 
