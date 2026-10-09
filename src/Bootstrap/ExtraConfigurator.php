@@ -47,8 +47,8 @@ class ExtraConfigurator extends Configurator
 			$start = hrtime(true);
 			$items = $this->finder($paths, ...$exclude);
 			$this->panel()?->addScan(
-				array_values((array) $paths),
-				array_merge(...array_map(fn($e) => array_values((array) $e), $exclude)),
+				(array) $paths,
+				array_merge(...array_map(fn($e) => (array) $e, $exclude)),
 				count($items),
 				(hrtime(true) - $start) / 1e6,
 			);
