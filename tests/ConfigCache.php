@@ -19,13 +19,6 @@ class ConfigCache
 	}
 
 
-	private function storage(): Cache
-	{
-		$tempDir = $this->tempDir . '/cache';
-		return new Cache(new FileStorage($tempDir), $this->key);
-	}
-
-
 	/**
 	 * @throws Throwable
 	 */
@@ -48,5 +41,12 @@ class ConfigCache
 	public function remove(): void
 	{
 		$this->storage()->remove($this->key);
+	}
+
+
+	private function storage(): Cache
+	{
+		$tempDir = $this->tempDir . '/cache';
+		return new Cache(new FileStorage($tempDir), $this->key);
 	}
 }
