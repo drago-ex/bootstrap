@@ -16,8 +16,9 @@ It is my fervent wish that this file guide every AI coding agent working with co
    - Supports excluding files/directories using variadic parameter `...$exclude`.
    - In development mode (`Debugger::$productionMode === false`), found configs are loaded immediately and the cache is cleared every time to reflect changes live.
    - In production mode, the list of discovered files is stored in cache under key `config.search` (`ExtraConfigurator::Caching`) using `Nette\Caching\Storages\FileStorage`.
-3. **Compatibility with `nette/mcp-inspector`**:
-   - Applications using `ExtraConfigurator` must provide a `bootConfigurator(): ExtraConfigurator` method in their `App\Bootstrap` class that returns the configurator instance before calling `createContainer()`.
+3. **Workspace integration with `nette/mcp-inspector`**:
+   - The `project` and `project-test` workspace applications expose `bootConfigurator(): ExtraConfigurator` so the inspector can obtain the configured instance before container creation.
+   - This method is an integration hook for those applications, not a requirement for ordinary use of `ExtraConfigurator`; see `readme.md` for the standalone usage pattern.
 
 ## Essential Commands
 Always run static analysis and tests before submitting non-trivial changes:
