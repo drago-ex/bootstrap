@@ -52,22 +52,33 @@ $configurator->addFindConfig([
 
 ## Excluding Files or Directories
 
-You can exclude certain files or directories from being loaded:
+You can exclude certain files or directories from being loaded. Each mask is matched against the whole
+file or directory name, so a file is excluded by its full name and a directory by its name:
 ```php
-$configurator->addFindConfig(__DIR__ . '/config', 'exclude');
+// Skips the file exclude.neon
+$configurator->addFindConfig(__DIR__ . '/config', 'exclude.neon');
+
+// Skips every file inside the Install directory
+$configurator->addFindConfig(__DIR__ . '/config', 'Install');
 ```
-This will load all `.neon` files from the `config` directory except `exclude.neon`.
+
+## Loading Order
+
+Found files are added in the order of their file names compared numerically, then by their paths.
+Later files override earlier ones, so a numeric prefix such as `8.conf.neon` or `9.conf.neon` controls
+which configuration wins.
 
 ## Cache Management
 
-In development mode, the cache is invalidated after each request to allow immediate updates.
-In production mode, the cache is stored without expiration unless the configuration files are modified.
+The mode is taken from the configurator, so set it before calling `addFindConfig()`:
 ```php
-use Tracy\Debugger;
-
-// Enable production mode to use persistent cache
-Debugger::$productionMode = true;
-
-// Cache is automatically handled and invalidated only when necessary
+$configurator->setDebugMode(false);
 $configurator->addFindConfig(__DIR__ . '/config');
 ```
+
+- In debug mode, the directories are searched on every call, so new files are found immediately.
+- Otherwise, the list of found files is cached in the temp directory. Each combination of paths and
+  exclusions has its own cache entry, so several calls in one application, or separate configurators
+  sharing the temp directory, do not affect each other.
+- The cached list does not expire. After adding or removing a `.neon` file in production, clear
+  `temp/cache` so the files are searched again.
