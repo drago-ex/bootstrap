@@ -9,26 +9,38 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 
 
 Tester\Environment::setup();
+Tester\Environment::setupFunctions();
 date_default_timezone_set('Europe/Prague');
 
 
 const TempDir = __DIR__ . '/tmp';
 const ConfDir = __DIR__ . '/file';
 
-@mkdir(dirname(TempDir));
 @mkdir(TempDir);
 
-$boot = new Drago\Bootstrap\ExtraConfigurator;
-$boot->setTempDirectory(TempDir);
-$boot->createRobotLoader()
-	->addDirectory(__DIR__)
-	->addDirectory(__DIR__ . '/../src')
-	->register();
 
-return $boot;
-
-
-function test(string $title, Closure $function): void
+/** Exposes the collected config files, which Nette keeps protected. */
+class TestConfigurator extends Drago\Bootstrap\ExtraConfigurator
 {
-	$function();
+	/** @return list<string> */
+	public function getConfigNames(): array
+	{
+		return array_map(
+			static fn(string $config): string => basename($config),
+			array_values(array_filter($this->configs, 'is_string')),
+		);
+	}
+}
+
+
+/** Creates a configurator with its own temp directory, so tests do not share a cache. */
+function createConfigurator(bool $debugMode, ?string $tempDir = null): TestConfigurator
+{
+	$tempDir ??= TempDir . '/' . getmypid() . '-' . bin2hex(random_bytes(4));
+	@mkdir($tempDir, 0o777, true);
+
+	$configurator = new TestConfigurator;
+	$configurator->setDebugMode($debugMode);
+	$configurator->setTempDirectory($tempDir);
+	return $configurator;
 }

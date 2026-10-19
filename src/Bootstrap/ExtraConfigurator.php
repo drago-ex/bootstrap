@@ -9,7 +9,6 @@ use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 use Nette\Utils\Finder;
 use Throwable;
-use Tracy\Debugger;
 
 
 /** Extra configurator for managing loading and caching configuration files. */
@@ -19,38 +18,31 @@ class ExtraConfigurator extends Configurator
 
 
 	/**
-	 * Searches for configuration files and stores them in cache.
+	 * Searches for configuration files and adds them to the configurator.
+	 * In debug mode the directories are searched on every call; otherwise the list of found
+	 * files is cached separately for each combination of paths and exclusions.
 	 * @param string|list<string> $paths
 	 * @param string|list<string> $exclude
 	 * @throws Throwable
 	 */
 	public function addFindConfig(array|string $paths, array|string ...$exclude): static
 	{
-		$storage = new FileStorage((string) $this->getCacheDirectory());
-		$cache = new Cache($storage, self::Caching);
-
-		/** @var list<string>|null $cachedItems */
-		$cachedItems = $cache->load(self::Caching);
-
-		if (Debugger::$productionMode === false) {
+		if ($this->isDebugMode()) {
 			$items = $this->finder($paths, ...$exclude);
-			foreach ($items as $item) {
-				$this->addConfig($item);
-			}
-			$cache->remove(self::Caching);
 
 		} else {
-			if (!$cachedItems) {
-				$items = $this->finder($paths, ...$exclude);
-				$cache->save(self::Caching, $items, [
-					Cache::All => true,
-				]);
-				$cachedItems = $items;
-			}
+			$storage = new FileStorage($this->getCacheDirectory());
+			$cache = new Cache($storage, self::Caching);
 
-			foreach ($cachedItems as $item) {
-				$this->addConfig($item);
-			}
+			/** @var list<string> $items */
+			$items = $cache->load(
+				md5(serialize([(array) $paths, $exclude])),
+				fn(): array => $this->finder($paths, ...$exclude),
+			);
+		}
+
+		foreach ($items as $item) {
+			$this->addConfig($item);
 		}
 
 		return $this;

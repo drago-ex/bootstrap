@@ -7,48 +7,108 @@
 declare(strict_types=1);
 
 use Tester\Assert;
+use Tracy\Debugger;
 
-/** @var $boot Drago\Bootstrap\ExtraConfigurator */
-$boot = require __DIR__ . '/../bootstrap.php';
-
-
-$configCache = fn(): ConfigCache => new ConfigCache($boot::Caching, TempDir);
+require __DIR__ . '/../bootstrap.php';
 
 
-test('Find the configuration file from one place', function () use ($boot, $configCache) {
-	$boot->addFindConfig(ConfDir . '/one');
-	$config = $configCache()->getCache();
+test('Find the configuration file from one place', function () {
+	$configurator = createConfigurator(debugMode: false);
+	$configurator->addFindConfig(ConfDir . '/one');
 
-	Assert::same('common.neon', $config[0]);
-	Assert::same('services.neon', $config[1]);
-
-	$configCache()->remove();
+	Assert::same(['common.neon', 'services.neon'], $configurator->getConfigNames());
 });
 
 
-test('Find the configuration file from multiple locations', function () use ($boot, $configCache) {
-	$boot->addFindConfig([
+test('Find the configuration file from multiple locations', function () {
+	$configurator = createConfigurator(debugMode: false);
+	$configurator->addFindConfig([
 		ConfDir . '/one',
 		ConfDir . '/two',
 	]);
 
-	$config = $configCache()->getCache();
-
-	Assert::same('common.neon', $config[0]);
-	Assert::same('services.neon', $config[1]);
-	Assert::same('exclude.neon', $config[2]);
-
-	$configCache()->remove();
+	Assert::same(['common.neon', 'services.neon', 'exclude.neon'], $configurator->getConfigNames());
 });
 
 
-test('Find the configuration file and exclude which we do not want', function () use ($boot, $configCache) {
-	$boot->addFindConfig(ConfDir, 'two');
-	$config = $configCache()->getCache();
+test('Exclude a directory by its name', function () {
+	$configurator = createConfigurator(debugMode: false);
+	$configurator->addFindConfig(ConfDir, 'two');
 
-	Assert::same('common.neon', $config[0]);
-	Assert::same('services.neon', $config[1]);
-	Assert::false(in_array('exclude.neon', $config, true));
+	Assert::same(['common.neon', 'services.neon'], $configurator->getConfigNames());
+});
 
-	$configCache()->remove();
+
+test('Exclude a file by its full name', function () {
+	$configurator = createConfigurator(debugMode: false);
+	$configurator->addFindConfig(ConfDir, 'exclude.neon');
+
+	Assert::same(['common.neon', 'services.neon'], $configurator->getConfigNames());
+});
+
+
+test('Cached results are kept separately for different paths and exclusions', function () {
+	$tempDir = TempDir . '/shared-' . bin2hex(random_bytes(4));
+
+	createConfigurator(false, $tempDir)->addFindConfig(ConfDir . '/two');
+
+	$configurator = createConfigurator(false, $tempDir);
+	$configurator->addFindConfig(ConfDir . '/one');
+	Assert::same(['common.neon', 'services.neon'], $configurator->getConfigNames());
+
+	$configurator = createConfigurator(false, $tempDir);
+	$configurator->addFindConfig(ConfDir, 'two');
+	Assert::same(['common.neon', 'services.neon'], $configurator->getConfigNames());
+});
+
+
+test('Production mode reuses the cached list of files', function () {
+	$tempDir = TempDir . '/production-' . bin2hex(random_bytes(4));
+	$confDir = $tempDir . '/config';
+	@mkdir($confDir, 0o777, true);
+	file_put_contents($confDir . '/common.neon', '');
+
+	createConfigurator(false, $tempDir)->addFindConfig($confDir);
+	file_put_contents($confDir . '/later.neon', '');
+
+	$configurator = createConfigurator(false, $tempDir);
+	$configurator->addFindConfig($confDir);
+	Assert::same(['common.neon'], $configurator->getConfigNames());
+});
+
+
+test('Debug mode finds new files immediately', function () {
+	$tempDir = TempDir . '/debug-' . bin2hex(random_bytes(4));
+	$confDir = $tempDir . '/config';
+	@mkdir($confDir, 0o777, true);
+	file_put_contents($confDir . '/common.neon', '');
+
+	createConfigurator(true, $tempDir)->addFindConfig($confDir);
+	file_put_contents($confDir . '/later.neon', '');
+
+	$configurator = createConfigurator(true, $tempDir);
+	$configurator->addFindConfig($confDir);
+	Assert::same(['common.neon', 'later.neon'], $configurator->getConfigNames());
+});
+
+
+test('The mode is taken from the configurator, not from Tracy', function () {
+	$tempDir = TempDir . '/mode-' . bin2hex(random_bytes(4));
+	$confDir = $tempDir . '/config';
+	@mkdir($confDir, 0o777, true);
+	file_put_contents($confDir . '/common.neon', '');
+
+	$productionMode = Debugger::$productionMode;
+	Debugger::$productionMode = null;
+
+	try {
+		createConfigurator(true, $tempDir)->addFindConfig($confDir);
+		file_put_contents($confDir . '/later.neon', '');
+
+		$configurator = createConfigurator(true, $tempDir);
+		$configurator->addFindConfig($confDir);
+		Assert::same(['common.neon', 'later.neon'], $configurator->getConfigNames());
+	} finally {
+		Debugger::$productionMode = $productionMode;
+	}
 });
