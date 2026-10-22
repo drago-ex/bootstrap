@@ -1,46 +1,42 @@
-# To My Agents!
+# Agent Guide
 
-It is my fervent wish that this file guide every AI coding agent working with code in this repository.
+Use this file as package-specific guidance when working in this repository. Keep changes aligned with the existing public API, project conventions, and supported PHP range.
 
 ## Package Overview
 - **Package**: `drago-ex/bootstrap`
-- **PHP Version**: 8.3+ (< 9)
+- **Type**: library
+- **Purpose**: `ExtraConfigurator` extends Nette's `Configurator` with `addFindConfig()`, which finds `.neon` files in directories and caches the list in production.
+- **PHP**: >=8.3 <9
+- **Runtime dependencies**: nette/bootstrap (^3.2), nette/utils (^4.0), nette/caching (^3.2)
 - **License**: MIT
-- **Dependencies**: `nette/bootstrap`, `nette/utils`, `nette/caching`, `tracy/tracy`
-- **Purpose**: Extends the standard Nette `Configurator` with `Drago\Bootstrap\ExtraConfigurator`, which automatically discovers `.neon` configuration files across directories (`addFindConfig()`) and caches discovery results in production.
 
-## Architecture & How It Works
-1. **Inheritance**: `ExtraConfigurator` inherits directly from `Nette\Bootstrap\Configurator`.
-2. **Config Discovery (`addFindConfig`)**:
-   - Uses `Nette\Utils\Finder::findFiles('*.neon')`.
-   - Supports excluding files/directories using variadic parameter `...$exclude`.
-   - The mode comes from `$this->isDebugMode()`, not from Tracy, so callers must set it before `addFindConfig()`.
-   - In debug mode, the directories are searched on every call and nothing is cached.
-   - Otherwise, the list of discovered files is cached in the `config.search` namespace (`ExtraConfigurator::Caching`) using `Nette\Caching\Storages\FileStorage`. The key is a hash of the paths and exclusions, so different calls never share an entry (the `cms` application relies on this: its install and web containers search different directories in the same temp directory). The entry does not expire; new files in production need a cleared `temp/cache`.
-3. **Workspace integration with `nette/mcp-inspector`**:
-   - The `project` and `project-test` workspace applications expose `bootConfigurator(): ExtraConfigurator` so the inspector can obtain the configured instance before container creation.
-   - This method is an integration hook for those applications, not a requirement for ordinary use of `ExtraConfigurator`; see `readme.md` for the standalone usage pattern.
+## Repository Layout
+- `src/`: package source code.
+- `tests/`: automated tests; `tests/file/` holds the sample `.neon` files.
+- `.github/`: CI workflows; keep their PHP versions and commands consistent with Composer and the package scripts.
+- `composer.json`: package metadata, dependency constraints, autoloading, and available Composer scripts.
+
+## Key Parts
+- `addFindConfig($paths, ...$exclude)` finds `*.neon` with `Nette\Utils\Finder`; each exclude mask matches a whole file or directory name (projects exclude `Translate`, so translation files are not loaded as config).
+- Files are added by file name compared numerically, then by path, so prefixes like `8.conf.neon` and `9.conf.neon` decide which configuration wins.
+- The mode comes from `isDebugMode()`, not from Tracy, so callers set it before `addFindConfig()`. Debug mode searches on every call; otherwise the list is cached in the `config.search` namespace (`ExtraConfigurator::Caching`) under a hash of the paths and exclusions, so different calls never share an entry (install and web containers search different directories in the same temp directory). The entry does not expire; new files in production need a cleared `temp/cache`.
+- Projects (`drago-ex/project`, `project-install`, `generator-cli`) create it in `app/Bootstrap.php`; `bootConfigurator()` there is an integration hook for tools such as `nette/mcp-inspector`, not a requirement.
+
+## Dependencies
+
+Composer constraints describe the package contract. Before changing integration behavior, inspect the source and the actual call sites in this package; do not infer runtime usage solely from dependency declarations.
+Development dependencies include nette/tester (^2.5), phpstan/phpstan-nette (^2.0), tracy/tracy (^2.10) (tests check that the mode does not come from Tracy).
 
 ## Essential Commands
-Always run static analysis and tests before submitting non-trivial changes:
 
 ```bash
-# Run tests via Nette Tester
-composer tester                      # runs: tester tests -s
-vendor/bin/tester tests -s -C        # direct tester execution with colored output
-
-# Static analysis
-composer phpstan                     # PHPStan analysis configured level
+composer tester                 # tester tests -s -C
+composer phpstan                # phpstan analyse
 ```
 
-## Test Suite Structure
-- Test bootstrap: `tests/bootstrap.php` (initializes `Tester\Environment` with `test()` functions, the `tests/tmp` directory, the `TestConfigurator` helper exposing the collected config names, and `createConfigurator()`, which gives every test its own temp directory unless one is passed).
-- Test fixtures: `tests/file/` (contains subdirectories `one` and `two` with sample `.neon` files).
-- Tests: `tests/Bootstrap/ExtraConfigurator.phpt` (single and multiple directories, excluding a directory and a file, separate cache entries per paths and exclusions, production caching, debug mode without caching, and the mode taken from the configurator rather than Tracy).
-
 ## Conventions & Rules
-- Every PHP file **must** start with `declare(strict_types=1);`.
-- Use **tabs** for indentation (not spaces).
-- Strict typing across all properties, arguments, and return types.
-- Single quotes `'` for strings unless variable interpolation or apostrophes are needed.
-- Preserve all existing comments, docstrings, and documentation integrity.
+
+- Preserve backward compatibility unless the task explicitly permits a breaking change. Check callers and public signatures before changing behavior.
+- Follow the existing PHP style: strict types, explicit parameter and return types, tabs for indentation, and single-quoted strings where practical. Match nearby code when a convention is unclear.
+- Add or update focused tests for behavioral changes when this package has a runnable test setup. Do not invent test commands; use only the scripts and configuration present here.
+- Update README examples and Composer metadata when a public API or supported requirement changes.
