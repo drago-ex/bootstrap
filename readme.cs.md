@@ -35,10 +35,10 @@ use Drago\Bootstrap\ExtraConfigurator;
 
 $configurator = new ExtraConfigurator();
 
-// Přidá konfigurační soubory z adresáře 'config'
+// Add configuration files from the 'config' directory
 $configurator->addFindConfig(__DIR__ . '/config');
 
-// Přístup k aplikaci (můžete nastavovat služby, routování atd.)
+// Access the application (you can configure services, routing, etc.)
 $app = $configurator->app();
 ```
 
@@ -57,10 +57,10 @@ $configurator->addFindConfig([
 Některé soubory nebo adresáře můžete z načítání vynechat. Každá maska se porovnává s celým
 názvem souboru nebo adresáře, takže soubor vynecháte jeho celým názvem a adresář jeho názvem:
 ```php
-// Vynechá soubor exclude.neon
+// Skips the file exclude.neon
 $configurator->addFindConfig(__DIR__ . '/config', 'exclude.neon');
 
-// Vynechá všechny soubory v adresáři Install
+// Skips every file inside the Install directory
 $configurator->addFindConfig(__DIR__ . '/config', 'Install');
 ```
 
