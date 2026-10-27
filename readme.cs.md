@@ -1,7 +1,5 @@
 # Drago Bootstrap
 
-[English](readme.md) | Čeština
-
 `ExtraConfigurator` je třída postavená na `Configurator` z Nette Frameworku, která zjednodušuje
 načítání a cachování konfiguračních souborů ve formátu `.neon`. Cachování ve vývojovém
 i produkčním prostředí řeší sama.
