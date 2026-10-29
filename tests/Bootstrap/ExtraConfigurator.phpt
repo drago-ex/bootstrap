@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Drago\Bootstrap\ExtraConfigurator
  */
-
-declare(strict_types=1);
 
 use Tester\Assert;
 use Tracy\Debugger;
@@ -65,7 +63,7 @@ test('Cached results are kept separately for different paths and exclusions', fu
 test('Production mode reuses the cached list of files', function () {
 	$tempDir = TempDir . '/production-' . bin2hex(random_bytes(4));
 	$confDir = $tempDir . '/config';
-	@mkdir($confDir, 0o777, true);
+	@mkdir($confDir, 0o777, true); // @ directory may already exist
 	file_put_contents($confDir . '/common.neon', '');
 
 	createConfigurator(false, $tempDir)->addFindConfig($confDir);
@@ -80,7 +78,7 @@ test('Production mode reuses the cached list of files', function () {
 test('Debug mode finds new files immediately', function () {
 	$tempDir = TempDir . '/debug-' . bin2hex(random_bytes(4));
 	$confDir = $tempDir . '/config';
-	@mkdir($confDir, 0o777, true);
+	@mkdir($confDir, 0o777, true); // @ directory may already exist
 	file_put_contents($confDir . '/common.neon', '');
 
 	createConfigurator(true, $tempDir)->addFindConfig($confDir);
@@ -95,7 +93,7 @@ test('Debug mode finds new files immediately', function () {
 test('The mode is taken from the configurator, not from Tracy', function () {
 	$tempDir = TempDir . '/mode-' . bin2hex(random_bytes(4));
 	$confDir = $tempDir . '/config';
-	@mkdir($confDir, 0o777, true);
+	@mkdir($confDir, 0o777, true); // @ directory may already exist
 	file_put_contents($confDir . '/common.neon', '');
 
 	$productionMode = Debugger::$productionMode;

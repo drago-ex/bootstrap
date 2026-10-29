@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Drago\Bootstrap;
 
@@ -9,6 +7,7 @@ use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 use Nette\Utils\Finder;
 use Throwable;
+use function is_string;
 
 
 /** Extra configurator for managing loading and caching configuration files. */

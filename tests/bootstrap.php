@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-if (@!include __DIR__ . '/../vendor/autoload.php') {
+if (@!include __DIR__ . '/../vendor/autoload.php') { // @ dependencies may not be installed
 	echo 'Install Nette Tester using `composer install`';
 	exit(1);
 }
@@ -16,7 +14,7 @@ date_default_timezone_set('Europe/Prague');
 const TempDir = __DIR__ . '/tmp';
 const ConfDir = __DIR__ . '/file';
 
-@mkdir(TempDir);
+@mkdir(TempDir); // @ directory may already exist
 
 
 /** Exposes the collected config files, which Nette keeps protected. */
@@ -37,7 +35,7 @@ class TestConfigurator extends Drago\Bootstrap\ExtraConfigurator
 function createConfigurator(bool $debugMode, ?string $tempDir = null): TestConfigurator
 {
 	$tempDir ??= TempDir . '/' . getmypid() . '-' . bin2hex(random_bytes(4));
-	@mkdir($tempDir, 0o777, true);
+	@mkdir($tempDir, 0o777, true); // @ directory may already exist
 
 	$configurator = new TestConfigurator;
 	$configurator->setDebugMode($debugMode);
