@@ -20,7 +20,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 - `addFindConfig($paths, ...$exclude)` finds `*.neon` with `Nette\Utils\Finder`; each exclude mask matches a whole file or directory name (projects exclude `Translate`, so translation files are not loaded as config).
 - Files are added by file name compared numerically, then by path, so prefixes like `8.conf.neon` and `9.conf.neon` decide which configuration wins.
 - The mode comes from `isDebugMode()`, not from Tracy, so callers set it before `addFindConfig()`. Debug mode searches on every call; otherwise the list is cached in the `config.search` namespace (`ExtraConfigurator::Caching`) under a hash of the paths and exclusions, so different calls never share an entry (install and web containers search different directories in the same temp directory). The entry does not expire; new files in production need a cleared `temp/cache`.
-- Projects (`drago-ex/project`, `project-install`, `generator-cli`) create it in `app/Bootstrap.php`; `bootConfigurator()` there is an integration hook for tools such as `nette/mcp-inspector`, not a requirement.
+- Projects (`drago-ex/project`, `generator-cli`) create it in `app/Bootstrap.php`; `bootConfigurator()` there is an integration hook for tools such as `nette/mcp-inspector`, not a requirement.
 
 ## Dependencies
 
